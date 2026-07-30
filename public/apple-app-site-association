@@ -1,0 +1,29 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "Y7TVK75RZ8.com.grayline.wander"
+        ],
+        "components": [
+          {
+            "/": "/profiles/*",
+            "comment": "Opens a shared rec.me profile."
+          },
+          {
+            "/": "/places/*",
+            "comment": "Opens a shared rec.me place."
+          },
+          {
+            "/": "/lists/*",
+            "comment": "Opens a rec.me place list."
+          },
+          {
+            "/": "/invites/*",
+            "comment": "Opens a revocable rec.me list invitation."
+          }
+        ]
+      }
+    ]
+  }
+}

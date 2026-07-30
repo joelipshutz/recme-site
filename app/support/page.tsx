@@ -1,0 +1,83 @@
+import Link from "next/link";
+import { DocumentPage } from "@/components/DocumentPage";
+import { SUPPORT_EMAIL } from "@/lib/site";
+
+export const metadata = {
+  title: "Support",
+  description: "Get help with your rec.me account, places, imports, and safety."
+};
+
+export default function SupportPage() {
+  return (
+    <DocumentPage
+      eyebrow="Support"
+      title="Tell us what happened, not just that it broke."
+      intro="The fastest support request includes your device, app build, approximate time, and the exact step where things went wrong."
+    >
+      <section className="support-callout">
+        <h2>Contact rec.me support</h2>
+        <p>
+          Email <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
+        </p>
+        <a
+          className="button"
+          href={`mailto:${SUPPORT_EMAIL}?subject=rec.me%20support%20request`}
+        >
+          Start a support email
+        </a>
+      </section>
+
+      <section>
+        <h2>What to include</h2>
+        <ul>
+          <li>iPhone model and iOS version</li>
+          <li>rec.me version and build from TestFlight or the App Store</li>
+          <li>Your username or account email when the problem is account-specific</li>
+          <li>Approximate date, time, and time zone</li>
+          <li>Exact steps and what you expected to happen</li>
+          <li>A screenshot or screen recording with private details removed</li>
+        </ul>
+        <p>
+          Never email a password, verification code, API key, private place
+          note, or precise home location.
+        </p>
+      </section>
+
+      <section>
+        <h2>Imports</h2>
+        <p>
+          For help saving from Google Maps, Instagram, TikTok, texts, notes, or
+          photos, use our <Link href="/import-help">Import Help guide</Link>.
+        </p>
+      </section>
+
+      <section>
+        <h2>Privacy and account deletion</h2>
+        <p>
+          Review <Link href="/privacy-choices">Privacy Choices</Link>. Account
+          deletion is available inside rec.me under Profile → Settings → Delete
+          my account.
+        </p>
+      </section>
+
+      <section>
+        <h2>Safety</h2>
+        <p>
+          Block an account immediately when you need separation. Use in-app
+          reporting when available or contact support with the profile,
+          content, and reason. For immediate danger, contact local emergency
+          services.
+        </p>
+      </section>
+
+      <section>
+        <h2>Service status</h2>
+        <p>
+          If sign-in, sync, or imports are temporarily unavailable, keep rec.me
+          installed and avoid repeatedly recreating the same item. Local saves
+          and drafts are designed to retry when the connection recovers.
+        </p>
+      </section>
+    </DocumentPage>
+  );
+}
