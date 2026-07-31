@@ -680,17 +680,6 @@ img {
   font-size: 12px;
 }
 
-.hero__demo-hint {
-  position: absolute;
-  left: 50%;
-  bottom: 20px;
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 700;
-  transform: translateX(-50%);
-}
-
 @keyframes app-screen-arrive {
   from {
     opacity: 0.7;
@@ -958,29 +947,29 @@ img {
   position: relative;
   min-height: 480px;
   overflow: hidden;
-  background: var(--text-ink);
+  background: var(--surface-sand);
   border: 1px solid var(--border-hairline);
   border-radius: 34px;
   box-shadow: var(--shadow-card);
 }
 
 .feature-map__screen {
-  object-fit: cover;
-  object-position: center 70%;
+  z-index: 1;
 }
 
-.feature-map__caption {
-  position: absolute;
+.feature-map__screen--backdrop {
+  object-fit: cover;
+  object-position: center 70%;
+  filter: blur(16px) saturate(0.82);
+  opacity: 0.34;
+  transform: scale(1.08);
+}
+
+.feature-map__screen--foreground {
   z-index: 2;
-  left: 18px;
-  bottom: 18px;
-  padding: 10px 14px;
-  color: var(--surface-bone);
-  background: rgba(44, 33, 24, 0.8);
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 800;
-  backdrop-filter: blur(12px);
+  padding: 18px;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 28px rgba(44, 33, 24, 0.2));
 }
 
 .check-list {
@@ -1411,10 +1400,6 @@ img {
     bottom: 70px;
   }
 
-  .hero__demo-hint {
-    bottom: 4px;
-  }
-
   .phone__chips {
     gap: 6px;
   }
@@ -1460,8 +1445,8 @@ img {
     min-height: 390px;
   }
 
-  .feature-map__caption {
-    font-size: 11px;
+  .feature-map__screen--foreground {
+    padding: 12px;
   }
 
   .cta {

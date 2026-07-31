@@ -60,7 +60,6 @@ export function InteractiveProductDemo() {
         <strong>{selected.stampTitle}</strong>
         <span>{selected.stampCopy}</span>
       </div>
-      <p className="hero__demo-hint">Captured directly from rec.me on iPhone</p>
     </div>
   );
 }
