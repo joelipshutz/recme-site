@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { InteractiveProductDemo } from "@/components/InteractiveProductDemo";
 import { primaryDownloadLabel, primaryDownloadURL } from "@/lib/site";
 
@@ -23,24 +24,39 @@ const memoryMoments = [
     eyebrow: "Maya · last Friday",
     title: "Save the part you’ll forget.",
     copy: "Maya checks in at Bar Nido and keeps the useful detail: warm room, great pasta, easy to talk.",
-    artifact: "“Get the bar seats.”",
-    meta: "Check-in · Friends"
+    actor: "Maya",
+    initials: "M",
+    ticketEyebrow: "CHECKED IN · LAST FRIDAY",
+    artifact: "Bar Nido",
+    meta: "Restaurant · Los Angeles · ★ 4",
+    note: "Good service and easy to talk.",
+    tone: "social"
   },
   {
     number: "02",
     eyebrow: "The trusted layer",
     title: "See the people behind the pin.",
     copy: "Joe and Ryan check in too. Their notes stay attached, so the recommendation has a point of view.",
-    artifact: "Maya + 2 friends",
-    meta: "3 check-ins"
+    actor: "Joe + Ryan",
+    initials: "+2",
+    ticketEyebrow: "CHECKED IN TOO",
+    artifact: "Bar Nido",
+    meta: "3 trusted check-ins",
+    note: "Warm room · great pasta · get the bar seats.",
+    tone: "social"
   },
   {
     number: "03",
     eyebrow: "Six months later",
     title: "Ask the way you actually think.",
     copy: "Search “date night where we can talk” and Bar Nido comes back with the people and reasons that made it useful.",
-    artifact: "date night where we can talk",
-    meta: "Found from your people"
+    actor: "Your search",
+    initials: "Y",
+    ticketEyebrow: "FOUND FROM CHECK-INS",
+    artifact: "Bar Nido",
+    meta: "date night where we can talk",
+    note: "Recommended by Maya + 2 friends.",
+    tone: "you"
   }
 ];
 
@@ -103,9 +119,20 @@ export default function HomePage() {
                 <h3>{moment.title}</h3>
                 <p>{moment.copy}</p>
               </div>
-              <div className={`memory-artifact memory-artifact--${moment.number}`}>
-                <strong>{moment.artifact}</strong>
-                <span>{moment.meta}</span>
+              <div className={`memory-ticket memory-ticket--${moment.tone}`}>
+                <div className="memory-ticket__header">
+                  <span className="memory-ticket__avatar" aria-hidden="true">
+                    {moment.initials}
+                  </span>
+                  <span className="memory-ticket__identity">
+                    <strong>{moment.actor}</strong>
+                    <small>{moment.ticketEyebrow}</small>
+                  </span>
+                  <span className="memory-ticket__status" aria-hidden="true">✓</span>
+                </div>
+                <strong className="memory-ticket__place">{moment.artifact}</strong>
+                <span className="memory-ticket__meta">{moment.meta}</span>
+                <em>“{moment.note}”</em>
               </div>
             </article>
           ))}
@@ -113,19 +140,15 @@ export default function HomePage() {
       </section>
 
       <section className="section section--feature">
-        <div className="feature-map" aria-hidden="true">
-          <div className="feature-map__label feature-map__label--one">
-            <span className="map-pin map-pin--terracotta" />
-            <strong>Your check-ins</strong>
-          </div>
-          <div className="feature-map__label feature-map__label--two">
-            <span className="map-pin map-pin--sky" />
-            <strong>Trusted people</strong>
-          </div>
-          <div className="feature-map__label feature-map__label--three">
-            <span className="map-pin map-pin--moss" />
-            <strong>Worth a detour</strong>
-          </div>
+        <div className="feature-map feature-map--screenshot">
+          <Image
+            alt="The rec.me app map showing personal and social place pins with the Woodcat Coffee recommendation ticket selected."
+            className="feature-map__screen"
+            fill
+            sizes="(max-width: 900px) 100vw, 52vw"
+            src="/product/recme-map-ticket.jpg"
+          />
+          <span className="feature-map__caption">The real rec.me map</span>
         </div>
         <div className="feature-copy">
           <p className="eyebrow">Trust travels with the place</p>
