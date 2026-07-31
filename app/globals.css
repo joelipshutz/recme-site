@@ -955,21 +955,8 @@ img {
 
 .feature-map__screen {
   z-index: 1;
-}
-
-.feature-map__screen--backdrop {
   object-fit: cover;
-  object-position: center 70%;
-  filter: blur(16px) saturate(0.82);
-  opacity: 0.34;
-  transform: scale(1.08);
-}
-
-.feature-map__screen--foreground {
-  z-index: 2;
-  padding: 18px;
-  object-fit: contain;
-  filter: drop-shadow(0 16px 28px rgba(44, 33, 24, 0.2));
+  object-position: center 87%;
 }
 
 .check-list {
@@ -1443,10 +1430,6 @@ img {
 
   .feature-map {
     min-height: 390px;
-  }
-
-  .feature-map__screen--foreground {
-    padding: 12px;
   }
 
   .cta {

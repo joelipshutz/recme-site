@@ -142,16 +142,8 @@ export default function HomePage() {
       <section className="section section--feature">
         <div className="feature-map feature-map--screenshot">
           <Image
-            alt=""
-            aria-hidden="true"
-            className="feature-map__screen feature-map__screen--backdrop"
-            fill
-            sizes="(max-width: 900px) 100vw, 52vw"
-            src="/product/recme-map-ticket.jpg"
-          />
-          <Image
             alt="The rec.me app map showing personal and social place pins with the Woodcat Coffee recommendation ticket selected."
-            className="feature-map__screen feature-map__screen--foreground"
+            className="feature-map__screen"
             fill
             sizes="(max-width: 900px) 100vw, 52vw"
             src="/product/recme-map-ticket.jpg"
