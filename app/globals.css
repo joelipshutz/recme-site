@@ -213,7 +213,7 @@ img {
 }
 
 .button--small {
-  min-height: 40px;
+  min-height: 44px;
   padding: 9px 17px;
   font-size: 13px;
 }
@@ -357,6 +357,9 @@ img {
   height: 48px;
   margin: 0 18px;
   padding: 13px 17px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: var(--text-muted);
   background: var(--surface-raised);
   border: 1px solid var(--border-hairline);
@@ -366,22 +369,47 @@ img {
   font-weight: 600;
 }
 
+.phone__search span {
+  color: var(--terracotta-dark);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+}
+
 .phone__chips {
   padding: 12px 18px;
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
-.phone__chips span {
+.phone__chips button {
+  min-height: 44px;
   padding: 7px 11px;
+  color: var(--text-ink);
   background: var(--surface-raised);
   border: 1px solid var(--border-hairline);
   border-radius: 999px;
+  cursor: pointer;
+  font-family: var(--font-body);
   font-size: 11px;
   font-weight: 800;
+  line-height: 1;
+  transition: color 160ms ease, background-color 160ms ease,
+    border-color 160ms ease, transform 160ms ease;
 }
 
-.phone__chips span:first-child {
+.phone__chips button:hover {
+  border-color: var(--terracotta);
+  transform: translateY(-1px);
+}
+
+.phone__chips button:focus-visible {
+  outline: 3px solid var(--pin-social);
+  outline-offset: 2px;
+}
+
+.phone__chips button.is-active {
   color: var(--text-on-action);
   background: var(--terracotta);
   border-color: var(--terracotta);
@@ -389,7 +417,7 @@ img {
 
 .product-map {
   position: relative;
-  height: 360px;
+  height: 330px;
   overflow: hidden;
   background: #e6ddc9;
 }
@@ -514,6 +542,12 @@ img {
   bottom: 34%;
 }
 
+.map-pin--active {
+  z-index: 4;
+  outline: 7px solid rgba(255, 247, 234, 0.7);
+  animation: pin-arrive 420ms cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
 .place-sheet {
   position: absolute;
   left: 0;
@@ -524,6 +558,7 @@ img {
   background: var(--surface-bone);
   border-radius: 26px 26px 0 0;
   box-shadow: 0 -14px 30px rgba(44, 33, 24, 0.16);
+  animation: sheet-arrive 280ms ease-out;
 }
 
 .place-sheet__grab {
@@ -580,6 +615,7 @@ img {
   border-radius: 16px;
   box-shadow: var(--shadow-card);
   transform: rotate(3deg);
+  animation: stamp-arrive 320ms ease-out;
 }
 
 .hero__stamp strong {
@@ -589,6 +625,50 @@ img {
 .hero__stamp span {
   color: var(--text-muted);
   font-size: 12px;
+}
+
+.hero__demo-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  transform: translateX(-50%);
+}
+
+@keyframes pin-arrive {
+  from {
+    opacity: 0.45;
+    scale: 0.72;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes sheet-arrive {
+  from {
+    opacity: 0.72;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stamp-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px) rotate(1deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(3deg);
+  }
 }
 
 .trust-strip {
@@ -654,22 +734,22 @@ img {
   background: var(--surface-bone);
 }
 
-.step-grid {
+.memory-story {
   margin-top: 52px;
+  border-top: 1px solid var(--border-strong);
+}
+
+.memory-moment {
+  min-height: 230px;
+  padding: 34px 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  grid-template-columns: 72px minmax(0, 1fr) minmax(260px, 0.7fr);
+  align-items: center;
+  gap: clamp(24px, 5vw, 70px);
+  border-bottom: 1px solid var(--border-strong);
 }
 
-.step {
-  min-height: 280px;
-  padding: 28px;
-  background: var(--canvas-warm);
-  border: 1px solid var(--border-hairline);
-  border-radius: 24px;
-}
-
-.step > span {
+.memory-moment__rail > span {
   width: 42px;
   height: 42px;
   display: inline-flex;
@@ -682,16 +762,58 @@ img {
   font-weight: 800;
 }
 
-.step h3 {
-  margin: 54px 0 0;
+.memory-moment__copy h3 {
+  max-width: 590px;
+  margin: 0;
   font-family: var(--font-display);
-  font-size: 25px;
-  line-height: 1.1;
+  font-size: clamp(28px, 3.2vw, 42px);
+  line-height: 1.03;
 }
 
-.step p {
+.memory-moment__copy > p:not(.eyebrow) {
+  max-width: 640px;
   margin: 14px 0 0;
   color: var(--text-muted);
+  font-size: 17px;
+}
+
+.memory-artifact {
+  min-height: 126px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-hairline);
+  box-shadow: var(--shadow-card);
+}
+
+.memory-artifact strong {
+  font-family: var(--font-display);
+  font-size: 21px;
+  line-height: 1.15;
+}
+
+.memory-artifact span {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.memory-artifact--01 {
+  border-radius: 18px 18px 6px 18px;
+  transform: rotate(-1.5deg);
+}
+
+.memory-artifact--02 {
+  border-radius: 999px;
+  transform: rotate(1deg);
+}
+
+.memory-artifact--03 {
+  border-radius: 999px;
+  box-shadow: none;
+  transform: rotate(-1deg);
 }
 
 .section--feature {
@@ -846,9 +968,15 @@ img {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-content: start;
-  gap: 12px 26px;
+  gap: 0 26px;
   font-size: 14px;
   font-weight: 700;
+}
+
+.site-footer__links a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .site-footer__legal {
@@ -1108,9 +1236,16 @@ img {
     min-height: 650px;
   }
 
-  .trust-strip,
-  .step-grid {
+  .trust-strip {
     grid-template-columns: 1fr;
+  }
+
+  .memory-moment {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+
+  .memory-artifact {
+    grid-column: 2;
   }
 
   .trust-strip article {
@@ -1152,6 +1287,7 @@ img {
   }
 
   .site-nav .button {
+    min-height: 44px;
     padding-inline: 13px;
   }
 
@@ -1182,7 +1318,21 @@ img {
 
   .hero__stamp {
     right: 0;
-    bottom: 60px;
+    bottom: 52px;
+  }
+
+  .hero__demo-hint {
+    bottom: 4px;
+  }
+
+  .phone__chips {
+    gap: 6px;
+  }
+
+  .phone__chips button {
+    min-height: 44px;
+    padding-inline: 9px;
+    font-size: 10px;
   }
 
   .section {
@@ -1195,12 +1345,25 @@ img {
     padding-right: 14px;
   }
 
-  .step {
-    min-height: 240px;
+  .memory-moment {
+    padding: 32px 0;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 18px;
   }
 
-  .step h3 {
-    margin-top: 40px;
+  .memory-moment__rail > span {
+    width: 36px;
+    height: 36px;
+  }
+
+  .memory-artifact {
+    min-height: 112px;
+    padding: 20px;
+    grid-column: 1 / -1;
+  }
+
+  .site-footer__links a {
+    min-height: 44px;
   }
 
   .feature-map {

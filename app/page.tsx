@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BrandMark } from "@/components/BrandMark";
+import { InteractiveProductDemo } from "@/components/InteractiveProductDemo";
 import { primaryDownloadLabel, primaryDownloadURL } from "@/lib/site";
 
 const trustNotes = [
@@ -17,21 +17,30 @@ const trustNotes = [
   }
 ];
 
-const steps = [
+const memoryMoments = [
   {
     number: "01",
-    title: "Save the place while it’s fresh",
-    copy: "Mark Been or Wanna Go, then add only the details future-you will actually use."
+    eyebrow: "Maya · last Friday",
+    title: "Save the part you’ll forget.",
+    copy: "Maya checks in at Bar Nido and keeps the useful detail: warm room, great pasta, easy to talk.",
+    artifact: "“Get the bar seats.”",
+    meta: "Check-in · Friends"
   },
   {
     number: "02",
-    title: "Keep your real context",
-    copy: "Remember the table, trail, dish, vibe, or person who made the place matter."
+    eyebrow: "The trusted layer",
+    title: "See the people behind the pin.",
+    copy: "Joe and Ryan check in too. Their notes stay attached, so the recommendation has a point of view.",
+    artifact: "Maya + 2 friends",
+    meta: "3 check-ins"
   },
   {
     number: "03",
-    title: "Find it when the moment comes",
-    copy: "Search by place, category, area, person, or the kind of outing you need."
+    eyebrow: "Six months later",
+    title: "Ask the way you actually think.",
+    copy: "Search “date night where we can talk” and Bar Nido comes back with the people and reasons that made it useful.",
+    artifact: "date night where we can talk",
+    meta: "Found from your people"
   }
 ];
 
@@ -62,46 +71,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="hero__product" aria-label="rec.me map preview">
-          <div className="phone">
-            <div className="phone__top">
-              <BrandMark compact />
-              <span className="phone__avatar">RL</span>
-            </div>
-            <div className="phone__search">Where should we go?</div>
-            <div className="phone__chips">
-              <span>You</span>
-              <span>Friends</span>
-              <span>Been</span>
-            </div>
-            <div className="product-map">
-              <span className="map-block map-block--one" />
-              <span className="map-block map-block--two" />
-              <span className="map-block map-block--three" />
-              <span className="map-road map-road--one" />
-              <span className="map-road map-road--two" />
-              <span className="map-road map-road--three" />
-              <span className="map-pin map-pin--terracotta map-pin--hero-one" />
-              <span className="map-pin map-pin--sky map-pin--hero-two" />
-              <span className="map-pin map-pin--moss map-pin--hero-three" />
-              <span className="map-pin map-pin--terracotta map-pin--hero-four" />
-            </div>
-            <div className="place-sheet">
-              <span className="place-sheet__grab" />
-              <p className="eyebrow">Saved from Maya</p>
-              <h2>Bar Nido</h2>
-              <p>date night · warm room · easy conversation</p>
-              <div className="place-sheet__actions">
-                <span>Been</span>
-                <span>Directions</span>
-              </div>
-            </div>
-          </div>
-          <div className="hero__stamp">
-            <strong>3 friends</strong>
-            <span>have been here</span>
-          </div>
-        </div>
+        <InteractiveProductDemo />
       </section>
 
       <section className="trust-strip" aria-label="Product principles">
@@ -122,12 +92,21 @@ export default function HomePage() {
             generic bookmark folder.
           </p>
         </header>
-        <div className="step-grid">
-          {steps.map((step) => (
-            <article className="step" key={step.number}>
-              <span>{step.number}</span>
-              <h3>{step.title}</h3>
-              <p>{step.copy}</p>
+        <div className="memory-story">
+          {memoryMoments.map((moment) => (
+            <article className="memory-moment" key={moment.number}>
+              <div className="memory-moment__rail" aria-hidden="true">
+                <span>{moment.number}</span>
+              </div>
+              <div className="memory-moment__copy">
+                <p className="eyebrow">{moment.eyebrow}</p>
+                <h3>{moment.title}</h3>
+                <p>{moment.copy}</p>
+              </div>
+              <div className={`memory-artifact memory-artifact--${moment.number}`}>
+                <strong>{moment.artifact}</strong>
+                <span>{moment.meta}</span>
+              </div>
             </article>
           ))}
         </div>
@@ -137,7 +116,7 @@ export default function HomePage() {
         <div className="feature-map" aria-hidden="true">
           <div className="feature-map__label feature-map__label--one">
             <span className="map-pin map-pin--terracotta" />
-            <strong>Your Been places</strong>
+            <strong>Your check-ins</strong>
           </div>
           <div className="feature-map__label feature-map__label--two">
             <span className="map-pin map-pin--sky" />
@@ -156,7 +135,7 @@ export default function HomePage() {
             remember what your people thought—and whether it fits this moment.
           </p>
           <ul className="check-list">
-            <li>One map for Been and Wanna Go</li>
+            <li>One map for Check-ins and Wanna Go</li>
             <li>Follower and friend visibility, never a public feed</li>
             <li>Notes, ratings, tags, lists, and check-ins in context</li>
           </ul>

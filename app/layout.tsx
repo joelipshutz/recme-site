@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: "%s · rec.me"
   },
   description:
-    "Remember places worth returning to and discover where trusted people have actually been.",
+    "Remember places worth returning to and discover where trusted people have checked in.",
   applicationName: "rec.me",
   openGraph: {
     title: "rec.me — places worth remembering",
