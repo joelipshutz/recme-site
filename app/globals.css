@@ -385,6 +385,100 @@ img {
   animation: app-screen-arrive 240ms ease-out;
 }
 
+.map-filter-controls {
+  position: absolute;
+  z-index: 4;
+  top: 12.85%;
+  left: 2.4%;
+  width: 82%;
+  display: grid;
+  grid-template-columns: 0.72fr 1.14fr 1.12fr 0.96fr;
+  gap: 4px;
+}
+
+.map-filter-button {
+  min-width: 0;
+  min-height: 44px;
+  padding: 5px 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--text-ink);
+  background: color-mix(in srgb, var(--surface-raised) 96%, var(--surface-bone));
+  border: 2px solid var(--border-strong);
+  border-radius: 999px;
+  box-shadow: 0 3px 0 rgba(44, 33, 24, 0.2), 0 5px 12px rgba(44, 33, 24, 0.14);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+  transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease,
+    color 140ms ease;
+}
+
+.map-filter-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 rgba(44, 33, 24, 0.18), 0 9px 16px rgba(44, 33, 24, 0.18);
+}
+
+.map-filter-button:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 1px 0 rgba(44, 33, 24, 0.22), 0 3px 8px rgba(44, 33, 24, 0.12);
+}
+
+.map-filter-button:focus-visible {
+  outline: 3px solid var(--cat-sun);
+  outline-offset: 2px;
+}
+
+.map-filter-button__icon {
+  flex: 0 0 auto;
+  font-size: 8px;
+  letter-spacing: -3px;
+}
+
+.map-filter-button--you {
+  color: var(--terracotta-dark);
+  border-color: var(--terracotta);
+}
+
+.map-filter-button--social {
+  color: #3788a7;
+  border-color: var(--pin-social);
+}
+
+.map-filter-button--check-ins {
+  border-color: var(--text-ink);
+}
+
+.map-filter-button--wanna {
+  border-color: var(--text-ink);
+  border-style: dashed;
+}
+
+.map-filter-button--you.is-active {
+  color: var(--surface-bone);
+  background: var(--terracotta);
+}
+
+.map-filter-button--social.is-active {
+  color: var(--text-ink);
+  background: var(--pin-social);
+}
+
+.map-filter-button--check-ins.is-active {
+  color: var(--surface-bone);
+  background: var(--text-ink);
+}
+
+.map-filter-button--wanna.is-active {
+  color: var(--text-ink);
+  background: var(--cat-sun);
+}
+
 .phone__top {
   height: 82px;
   padding: 30px 22px 12px;
