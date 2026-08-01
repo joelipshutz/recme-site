@@ -9,6 +9,7 @@ export function SiteFooter() {
         <p>Places worth remembering, from people you trust.</p>
       </div>
       <nav className="site-footer__links" aria-label="Legal and support">
+        <Link href="/how-it-works">How it works</Link>
         <Link href="/privacy">Privacy</Link>
         <Link href="/terms">Terms</Link>
         <Link href="/community">Community Standards</Link>

@@ -78,7 +78,7 @@ export default function HomePage() {
             <a className="button" href={primaryDownloadURL}>
               {primaryDownloadLabel}
             </a>
-            <Link className="button button--secondary" href="#how-it-works">
+            <Link className="button button--secondary" href="/how-it-works">
               See how it works
             </Link>
           </div>
