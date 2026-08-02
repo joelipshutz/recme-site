@@ -2217,6 +2217,10 @@ img {
   background: var(--canvas-warm);
 }
 
+.app-demo__viewport--focused {
+  height: 430px;
+}
+
 .app-demo__progress {
   position: relative;
   z-index: 20;
@@ -2246,58 +2250,79 @@ img {
 .real-app-demo {
   position: absolute;
   inset: 0;
-  padding: 16px 28px;
-  display: grid;
-  grid-template-columns: minmax(190px, 1fr) minmax(180px, 230px);
-  align-items: center;
-  gap: clamp(18px, 4vw, 42px);
+  padding: 12px;
   background:
-    radial-gradient(circle at 25% 42%, rgba(214, 108, 72, 0.15), transparent 34%),
+    radial-gradient(circle at 30% 42%, rgba(214, 108, 72, 0.15), transparent 38%),
     linear-gradient(145deg, var(--surface-bone), var(--canvas-warm));
 }
 
 .real-app-demo__phone {
   position: relative;
-  height: 468px;
-  aspect-ratio: 1206 / 2622;
-  justify-self: center;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   background: var(--surface-sand);
-  border: 6px solid #241b16;
-  border-radius: 34px;
+  border: 5px solid #241b16;
+  border-radius: 26px;
   box-shadow: 0 20px 44px rgba(44, 33, 24, 0.24);
+}
+
+.real-app-demo__canvas {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: max(100%, 350px);
+  aspect-ratio: 944 / 2052;
+  translate: -50% 0;
+  transition: transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.real-app-demo__canvas--top {
+  transform: translateY(0);
+}
+
+.real-app-demo__canvas--upper {
+  transform: translateY(-13%);
+}
+
+.real-app-demo__canvas--middle {
+  transform: translateY(-32%);
+}
+
+.real-app-demo__canvas--lower {
+  transform: translateY(-47%);
+}
+
+.real-app-demo__canvas--bottom {
+  transform: translateY(-59%);
 }
 
 .real-app-demo__screen {
   object-fit: cover;
-  animation: real-app-frame-in 320ms ease-out both;
+  animation: real-app-frame-in 520ms ease-out both;
 }
 
 .real-app-demo__caption {
-  position: relative;
-  z-index: 4;
-  padding: 18px 18px 20px;
+  position: absolute;
+  z-index: 5;
+  right: 26px;
+  bottom: 26px;
+  width: min(270px, calc(100% - 52px));
+  padding: 14px 16px 16px;
   display: grid;
-  gap: 7px;
+  gap: 5px;
   color: var(--text-ink);
   background: rgba(255, 249, 239, 0.94);
   border: 1px solid var(--border-strong);
-  border-radius: 18px;
+  border-radius: 16px;
   box-shadow: 0 12px 30px rgba(44, 33, 24, 0.12);
-  animation: real-app-caption-in 320ms ease-out both;
+  backdrop-filter: blur(12px);
+  animation: real-app-caption-in 420ms ease-out both;
 }
 
-.real-app-demo__caption::before {
-  content: "";
-  position: absolute;
-  left: -9px;
-  top: 25px;
-  width: 16px;
-  height: 16px;
-  background: inherit;
-  border-bottom: 1px solid var(--border-strong);
-  border-left: 1px solid var(--border-strong);
-  transform: rotate(45deg);
+.real-app-demo--caption-top .real-app-demo__caption {
+  top: 26px;
+  bottom: auto;
 }
 
 .real-app-demo__caption small {
@@ -2309,9 +2334,62 @@ img {
 
 .real-app-demo__caption strong {
   font-family: var(--font-display);
-  font-size: clamp(19px, 2.2vw, 26px);
+  font-size: clamp(18px, 2vw, 24px);
   letter-spacing: -0.025em;
   line-height: 1.04;
+}
+
+.real-app-demo__typing {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  color: #2c211b;
+  background: #fffdf8;
+  white-space: nowrap;
+}
+
+  .real-app-demo__typing--map {
+  left: 11.5%;
+  top: 8.25%;
+  width: 67%;
+  height: 4.2%;
+  font-size: clamp(16px, 3.4vw, 29px);
+  font-weight: 650;
+}
+
+.real-app-demo__typing--feed {
+  left: 14.5%;
+  top: 14.4%;
+  width: 77%;
+  height: 4.8%;
+  font-size: clamp(16px, 3.2vw, 27px);
+  font-weight: 750;
+}
+
+.real-app-demo__typing > span {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.real-app-demo__caret {
+  width: 2px;
+  height: 1.05em;
+  margin-left: 2px;
+  display: inline-block;
+  flex: 0 0 auto;
+  background: var(--terracotta);
+  animation: real-app-caret 720ms steps(1, end) infinite;
+}
+
+.real-app-demo.is-paused .real-app-demo__focus,
+.real-app-demo.is-paused .real-app-demo__caret,
+.real-app-demo.is-paused .real-app-demo__screen {
+  animation-play-state: paused;
 }
 
 .real-app-demo__focus {
@@ -2407,13 +2485,18 @@ img {
 }
 
 @keyframes real-app-caption-in {
-  from { opacity: 0; transform: translateX(10px); }
-  to { opacity: 1; transform: translateX(0); }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes real-app-focus {
   0%, 100% { filter: brightness(1); }
   50% { filter: brightness(1.12); }
+}
+
+@keyframes real-app-caret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
 .app-demo__map-image {
@@ -3813,33 +3896,46 @@ img {
     height: 500px;
   }
 
+  .app-demo__viewport--focused {
+    height: 410px;
+  }
+
   .real-app-demo {
-    padding: 10px 12px;
-    grid-template-columns: 1fr;
-    grid-template-rows: minmax(0, 1fr) auto;
-    gap: 8px;
+    padding: 8px;
   }
 
   .real-app-demo__phone {
-    height: 395px;
+    height: 100%;
+    border-width: 4px;
+    border-radius: 20px;
   }
 
   .real-app-demo__caption {
-    width: min(100%, 320px);
-    min-height: 66px;
-    margin: 0 auto;
+    right: 18px;
+    bottom: 18px;
+    width: min(260px, calc(100% - 36px));
     padding: 11px 14px 12px;
     gap: 4px;
   }
 
-  .real-app-demo__caption::before {
-    left: 28px;
-    top: -7px;
-    transform: rotate(135deg);
+  .real-app-demo--caption-top .real-app-demo__caption {
+    top: 18px;
   }
 
   .real-app-demo__caption strong {
     font-size: 18px;
+  }
+
+  .real-app-demo__canvas--middle {
+    transform: translateY(-28%);
+  }
+
+  .real-app-demo__canvas--lower {
+    transform: translateY(-40%);
+  }
+
+  .real-app-demo__canvas--bottom {
+    transform: translateY(-45%);
   }
 
   .app-demo__search {
