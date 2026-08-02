@@ -222,11 +222,17 @@ export function InteractiveProductDemo() {
                       <button
                         aria-label={`Show ${state.label} places on the example map`}
                         aria-pressed={state.id === selectedMap.id}
-                        className="map-filter-button"
+                        className={`map-filter-button map-filter-button--${state.id}`}
                         key={state.id}
                         onClick={() => setSelectedMapID(state.id)}
                         type="button"
-                      />
+                      >
+                        <span className="map-filter-button__symbol" aria-hidden="true">
+                          <i />
+                          {state.id === "social" ? <i /> : null}
+                        </span>
+                        <span>{state.label}</span>
+                      </button>
                     ))}
                   </div>
                 </>
