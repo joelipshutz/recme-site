@@ -1924,6 +1924,14 @@ img {
   line-height: 0.98;
 }
 
+.motion-story__proof {
+  max-width: 620px;
+  margin: 20px 0 0;
+  color: var(--text-muted);
+  font-size: 17px;
+  font-weight: 650;
+}
+
 .motion-story__route {
   position: absolute;
   z-index: 0;
@@ -2233,6 +2241,179 @@ img {
 .app-demo__progress span.is-active {
   width: 24px;
   background: var(--terracotta);
+}
+
+.real-app-demo {
+  position: absolute;
+  inset: 0;
+  padding: 16px 28px;
+  display: grid;
+  grid-template-columns: minmax(190px, 1fr) minmax(180px, 230px);
+  align-items: center;
+  gap: clamp(18px, 4vw, 42px);
+  background:
+    radial-gradient(circle at 25% 42%, rgba(214, 108, 72, 0.15), transparent 34%),
+    linear-gradient(145deg, var(--surface-bone), var(--canvas-warm));
+}
+
+.real-app-demo__phone {
+  position: relative;
+  height: 468px;
+  aspect-ratio: 1206 / 2622;
+  justify-self: center;
+  overflow: hidden;
+  background: var(--surface-sand);
+  border: 6px solid #241b16;
+  border-radius: 34px;
+  box-shadow: 0 20px 44px rgba(44, 33, 24, 0.24);
+}
+
+.real-app-demo__screen {
+  object-fit: cover;
+  animation: real-app-frame-in 320ms ease-out both;
+}
+
+.real-app-demo__caption {
+  position: relative;
+  z-index: 4;
+  padding: 18px 18px 20px;
+  display: grid;
+  gap: 7px;
+  color: var(--text-ink);
+  background: rgba(255, 249, 239, 0.94);
+  border: 1px solid var(--border-strong);
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(44, 33, 24, 0.12);
+  animation: real-app-caption-in 320ms ease-out both;
+}
+
+.real-app-demo__caption::before {
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: 25px;
+  width: 16px;
+  height: 16px;
+  background: inherit;
+  border-bottom: 1px solid var(--border-strong);
+  border-left: 1px solid var(--border-strong);
+  transform: rotate(45deg);
+}
+
+.real-app-demo__caption small {
+  color: var(--terracotta-dark);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+}
+
+.real-app-demo__caption strong {
+  font-family: var(--font-display);
+  font-size: clamp(19px, 2.2vw, 26px);
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+}
+
+.real-app-demo__focus {
+  position: absolute;
+  z-index: 3;
+  display: block;
+  border: 2px solid #ffef88;
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 3px rgba(214, 108, 72, 0.88),
+    0 0 0 9px rgba(255, 239, 136, 0.28),
+    0 0 22px 10px rgba(255, 239, 136, 0.42);
+  animation: real-app-focus 1.25s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.real-app-demo__focus--map-search {
+  left: 3.5%;
+  right: 14.5%;
+  top: 7.2%;
+  height: 6.4%;
+  border-radius: 999px;
+}
+
+.real-app-demo__focus--search-result {
+  left: 3%;
+  right: 3%;
+  top: 14.5%;
+  height: 27%;
+}
+
+.real-app-demo__focus--rating {
+  left: 4%;
+  right: 4%;
+  top: 47%;
+  height: 14%;
+}
+
+.real-app-demo__focus--more-options {
+  left: 4%;
+  right: 4%;
+  top: 65.5%;
+  height: 7%;
+}
+
+.real-app-demo__focus--note {
+  left: 4%;
+  right: 4%;
+  top: 61%;
+  height: 22%;
+}
+
+.real-app-demo__focus--map-ticket {
+  left: 2.5%;
+  right: 2.5%;
+  top: 72%;
+  height: 16%;
+}
+
+.real-app-demo__focus--feed-search {
+  left: 4%;
+  right: 4%;
+  top: 13.5%;
+  height: 5.8%;
+  border-radius: 999px;
+}
+
+.real-app-demo__focus--feed-results {
+  left: 3%;
+  right: 3%;
+  top: 20.5%;
+  height: 55%;
+}
+
+.real-app-demo__focus--add-button {
+  right: 2.5%;
+  top: 7.1%;
+  width: 12.5%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.real-app-demo__focus--nearby {
+  left: 3%;
+  right: 3%;
+  top: 13%;
+  height: 58%;
+}
+
+@keyframes real-app-frame-in {
+  from { opacity: 0.45; transform: scale(1.012); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes real-app-caption-in {
+  from { opacity: 0; transform: translateX(10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes real-app-focus {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.12); }
 }
 
 .app-demo__map-image {
@@ -3630,6 +3811,35 @@ img {
 
   .app-demo__viewport {
     height: 500px;
+  }
+
+  .real-app-demo {
+    padding: 10px 12px;
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  .real-app-demo__phone {
+    height: 395px;
+  }
+
+  .real-app-demo__caption {
+    width: min(100%, 320px);
+    min-height: 66px;
+    margin: 0 auto;
+    padding: 11px 14px 12px;
+    gap: 4px;
+  }
+
+  .real-app-demo__caption::before {
+    left: 28px;
+    top: -7px;
+    transform: rotate(135deg);
+  }
+
+  .real-app-demo__caption strong {
+    font-size: 18px;
   }
 
   .app-demo__search {

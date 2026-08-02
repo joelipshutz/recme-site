@@ -96,6 +96,7 @@ export default function HowItWorksPage() {
         <header className="motion-story__header motion-reveal">
           <p className="eyebrow">One place, still useful later</p>
           <h2>Follow the memory from map pin to future plan.</h2>
+          <p className="motion-story__proof">Every frame below comes directly from the current rec.me iPhone app.</p>
         </header>
 
         <div className="motion-story__route" aria-hidden="true">
