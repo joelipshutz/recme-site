@@ -12,7 +12,6 @@ const mapStates = [
   {
     id: "you",
     label: "You",
-    icon: "●",
     src: "/product/recme-map-you.jpg",
     alt: "The rec.me iPhone map showing Ryan's personal place memories around Silver Lake with the Woodcat Coffee check-in ticket open.",
     stampTitle: "Your place memory",
@@ -21,7 +20,6 @@ const mapStates = [
   {
     id: "social",
     label: "Social",
-    icon: "●●",
     src: "/product/recme-map-social.jpg",
     alt: "The rec.me iPhone map showing places shared by trusted people with the Bar Nido social check-in ticket open.",
     stampTitle: "From people you trust",
@@ -30,7 +28,6 @@ const mapStates = [
   {
     id: "check-ins",
     label: "Check-ins",
-    icon: "●",
     src: "/product/recme-map-checkins.jpg",
     alt: "The rec.me iPhone map focused on check-ins with the Circuit Coffee ticket and recommendation details open.",
     stampTitle: "Places worth returning to",
@@ -39,7 +36,6 @@ const mapStates = [
   {
     id: "wanna",
     label: "Wanna",
-    icon: "○",
     src: "/product/recme-map-wanna.jpg",
     alt: "The rec.me iPhone map showing a saved Wanna place with the Larchmont Noodles ticket open.",
     stampTitle: "Saved for later",
@@ -101,18 +97,11 @@ export function InteractiveProductDemo() {
                 <button
                   aria-label={`Show ${state.label} places on the example map`}
                   aria-pressed={isActive}
-                  className={`map-filter-button map-filter-button--${state.id}${
-                    isActive ? " is-active" : ""
-                  }`}
+                  className="map-filter-button"
                   key={state.id}
                   onClick={() => setSelectedMapID(state.id)}
                   type="button"
-                >
-                  <span aria-hidden="true" className="map-filter-button__icon">
-                    {state.icon}
-                  </span>
-                  <span>{state.label}</span>
-                </button>
+                />
               );
             })}
           </div>
