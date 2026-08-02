@@ -11,7 +11,7 @@ const trustTiming = [1100, 750, 2900] as const;
 const searchTiming = [850, 2100, 2300, 700, 2400, 3100] as const;
 const nearbyTiming = [1200, 650, 3000] as const;
 
-function useDemoSequence(timing: readonly number[]) {
+export function useDemoSequence(timing: readonly number[]) {
   const demoRef = useRef<HTMLDivElement>(null);
   const [frame, setFrame] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -62,7 +62,7 @@ function useDemoSequence(timing: readonly number[]) {
   };
 }
 
-function DemoShell({
+export function DemoShell({
   children,
   demoRef,
   frame,
