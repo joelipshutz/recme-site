@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import type { ReactNode, RefObject } from "react";
+import type { CSSProperties, ReactNode, RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 
 export type HowItWorksDemoKind = "capture" | "trust" | "search" | "nearby";
@@ -113,22 +113,52 @@ export function DemoShell({
   );
 }
 
-type FocusTarget =
-  | "map-search"
-  | "search-result"
-  | "rating"
-  | "more-options"
-  | "note"
-  | "map-ticket"
-  | "feed-search"
-  | "feed-results"
-  | "add-button"
-  | "nearby";
+type FocusBox = {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  radius?: number;
+};
+
+const screenshotWidth = 944;
+const screenshotHeight = 2052;
+
+function focusBox(
+  left: number,
+  top: number,
+  width: number,
+  height: number,
+  radius = 22
+): FocusBox {
+  return {
+    left: (left / screenshotWidth) * 100,
+    top: (top / screenshotHeight) * 100,
+    width: (width / screenshotWidth) * 100,
+    height: (height / screenshotHeight) * 100,
+    radius
+  };
+}
+
+const focus = {
+  mapSearch: focusBox(29, 164, 768, 114, 999),
+  mapSearchResults: focusBox(27, 294, 890, 568, 30),
+  rating: focusBox(37, 987, 870, 277, 30),
+  moreOptions: focusBox(37, 1404, 870, 104, 28),
+  note: focusBox(37, 1353, 870, 208, 30),
+  trustedMapTicket: focusBox(28, 1420, 888, 410, 30),
+  feedSearch: focusBox(37, 296, 870, 105, 999),
+  resultSearch: focusBox(158, 163, 750, 106, 999),
+  quietResult: focusBox(37, 667, 870, 520, 30),
+  ryanResult: focusBox(37, 589, 870, 519, 30),
+  mapAddButton: focusBox(808, 164, 111, 114, 999),
+  nearbyCards: focusBox(54, 1147, 837, 299, 28)
+} as const;
 
 type RealFrame = {
   src: string;
   caption: string;
-  focus?: FocusTarget;
+  focus?: FocusBox;
   view?: "top" | "upper" | "middle" | "lower" | "bottom";
   captionAt?: "top" | "bottom";
   query?: {
@@ -139,30 +169,30 @@ type RealFrame = {
 };
 
 const captureFrames: readonly RealFrame[] = [
-  { src: "/product/recme-live-map.jpg", caption: "Tap the real Map search", focus: "map-search", view: "top" },
+  { src: "/product/recme-live-map.jpg", caption: "Tap the real Map search", focus: focus.mapSearch, view: "top" },
   {
     src: "/product/recme-live-map.jpg",
     caption: "Type Woodcat Coffee",
-    focus: "map-search",
+    focus: focus.mapSearch,
     view: "top",
     query: { text: "Woodcat Coffee", target: "map", type: true }
   },
   {
     src: "/product/recme-live-map-search.jpg",
     caption: "Choose Woodcat Coffee",
-    focus: "search-result",
+    focus: focus.mapSearchResults,
     view: "top",
     query: { text: "Woodcat Coffee", target: "map" }
   },
-  { src: "/product/recme-live-checkin-editor.jpg", caption: "Adjust the real rating", focus: "rating", view: "middle", captionAt: "top" },
-  { src: "/product/recme-live-checkin-details.jpg", caption: "Open note, tags, and privacy", focus: "more-options", view: "lower", captionAt: "top" },
-  { src: "/product/recme-live-checkin-filled.jpg", caption: "Add the detail future-you needs", focus: "note", view: "lower", captionAt: "top" },
+  { src: "/product/recme-live-checkin-editor.jpg", caption: "Adjust the real rating", focus: focus.rating, view: "middle", captionAt: "top" },
+  { src: "/product/recme-live-checkin-details.jpg", caption: "Open note, tags, and privacy", focus: focus.moreOptions, view: "lower", captionAt: "top" },
+  { src: "/product/recme-live-checkin-filled.jpg", caption: "Add the detail future-you needs", focus: focus.note, view: "lower", captionAt: "top" },
   { src: "/product/recme-live-place-woodcat.jpg", caption: "The memory lives on Woodcat’s full place profile", view: "top" }
 ];
 
 const trustFrames: readonly RealFrame[] = [
   { src: "/product/recme-live-map.jpg", caption: "Browse places from people you trust", view: "upper" },
-  { src: "/product/recme-live-trusted-map.jpg", caption: "Tap Bar Nido’s real map ticket", focus: "map-ticket", view: "bottom", captionAt: "top" },
+  { src: "/product/recme-live-trusted-map.jpg", caption: "Tap Bar Nido’s real map ticket", focus: focus.trustedMapTicket, view: "bottom", captionAt: "top" },
   { src: "/product/recme-live-trusted-place.jpg", caption: "See the full profile, ratings, tags, and context", view: "top" }
 ];
 
@@ -170,41 +200,41 @@ const searchFrames: readonly RealFrame[] = [
   {
     src: "/product/recme-live-feed.jpg",
     caption: "Tap the real Feed search",
-    focus: "feed-search",
+    focus: focus.feedSearch,
     view: "top",
     query: { text: "Search places or people…", target: "feed" }
   },
   {
     src: "/product/recme-live-feed.jpg",
     caption: "Ask for quiet coffee with good wifi",
-    focus: "feed-search",
+    focus: focus.feedSearch,
     view: "top",
     query: { text: "quiet coffee shop with good wifi", target: "feed", type: true }
   },
-  { src: "/product/recme-live-feed-search.jpg", caption: "rec.me understands the context", focus: "feed-search", view: "top" },
-  { src: "/product/recme-live-feed-search.jpg", caption: "Then ranks real places with trusted notes", focus: "feed-results", view: "upper" },
+  { src: "/product/recme-live-feed-search.jpg", caption: "rec.me understands the context", focus: focus.resultSearch, view: "top" },
+  { src: "/product/recme-live-feed-search.jpg", caption: "Then ranks real places with trusted notes", focus: focus.quietResult, view: "upper" },
   {
     src: "/product/recme-live-feed.jpg",
     caption: "Start another search",
-    focus: "feed-search",
+    focus: focus.feedSearch,
     view: "top",
     query: { text: "Search places or people…", target: "feed" }
   },
   {
     src: "/product/recme-live-feed.jpg",
     caption: "Ask for Ryan’s favorite places in LA",
-    focus: "feed-search",
+    focus: focus.feedSearch,
     view: "top",
     query: { text: "Ryan’s favorite places in LA", target: "feed", type: true }
   },
-  { src: "/product/recme-live-feed-search-ryan.jpg", caption: "rec.me understands Ryan and the location", focus: "feed-search", view: "top" },
-  { src: "/product/recme-live-feed-search-ryan.jpg", caption: "The results keep Ryan’s notes and ratings attached", focus: "feed-results", view: "upper" }
+  { src: "/product/recme-live-feed-search-ryan.jpg", caption: "rec.me understands Ryan and the location", focus: focus.resultSearch, view: "top" },
+  { src: "/product/recme-live-feed-search-ryan.jpg", caption: "The results keep Ryan’s notes and ratings attached", focus: focus.ryanResult, view: "upper" }
 ];
 
 const nearbyFrames: readonly RealFrame[] = [
-  { src: "/product/recme-live-map.jpg", caption: "Tap the actual Map action button", focus: "add-button", view: "top" },
+  { src: "/product/recme-live-map.jpg", caption: "Tap the actual Map action button", focus: focus.mapAddButton, view: "top" },
   { src: "/product/recme-live-add-nearby.jpg", caption: "The real Add sheet opens over your map", view: "middle", captionAt: "top" },
-  { src: "/product/recme-live-add-nearby.jpg", caption: "Nearby suggestions appear in the real Add flow", focus: "nearby", view: "middle", captionAt: "top" }
+  { src: "/product/recme-live-add-nearby.jpg", caption: "Nearby suggestions appear in the real Add flow", focus: focus.nearbyCards, view: "middle", captionAt: "top" }
 ];
 
 function TypedQuery({
@@ -283,7 +313,16 @@ function RealAppSequence({
             </span>
           ) : null}
           {current.focus ? (
-            <span className={`real-app-demo__focus real-app-demo__focus--${current.focus}`} />
+            <span
+              className="real-app-demo__focus"
+              style={{
+                "--focus-left": `${current.focus.left}%`,
+                "--focus-top": `${current.focus.top}%`,
+                "--focus-width": `${current.focus.width}%`,
+                "--focus-height": `${current.focus.height}%`,
+                "--focus-radius": `${current.focus.radius ?? 22}px`
+              } as CSSProperties}
+            />
           ) : null}
         </div>
       </div>

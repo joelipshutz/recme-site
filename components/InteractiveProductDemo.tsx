@@ -173,17 +173,17 @@ export function InteractiveProductDemo() {
       </div>
 
       <div className="product-demo__phone-wrap">
-        <div className="product-demo__hint" aria-live="polite">
-          {selectedID === "map" ? (
-            <span className="product-demo__hint--glow"><i aria-hidden="true" /> Try it: tap a glowing filter</span>
-          ) : selectedTicket ? (
-            <button onClick={() => setSelectedTicketID(null)} type="button">
-              <span aria-hidden="true">←</span> Back to the tickets
-            </button>
-          ) : (
-            <span className="product-demo__hint--glow"><i aria-hidden="true" /> Try it: tap a glowing ticket</span>
-          )}
-        </div>
+        {selectedID === "tickets" ? (
+          <div className="product-demo__hint" aria-live="polite">
+            {selectedTicket ? (
+              <button onClick={() => setSelectedTicketID(null)} type="button">
+                <span aria-hidden="true">←</span> Back to the tickets
+              </button>
+            ) : (
+              <span className="product-demo__hint--glow"><i aria-hidden="true" /> Try it: tap a glowing ticket</span>
+            )}
+          </div>
+        ) : null}
 
         <div className="phone phone--app-screen">
           {selectedTicket ? (
@@ -226,13 +226,7 @@ export function InteractiveProductDemo() {
                         key={state.id}
                         onClick={() => setSelectedMapID(state.id)}
                         type="button"
-                      >
-                        <span className="map-filter-button__symbol" aria-hidden="true">
-                          <i />
-                          {state.id === "social" ? <i /> : null}
-                        </span>
-                        <span>{state.label}</span>
-                      </button>
+                      />
                     ))}
                   </div>
                 </>
@@ -256,14 +250,16 @@ export function InteractiveProductDemo() {
         </div>
       </div>
 
-      <div
-        className="hero__stamp"
-        key={`${selectedID}-${selectedMapID}-${selectedTicketID ?? "feed"}-stamp`}
-        aria-live="polite"
-      >
-        <strong>{displayedCopy.stampTitle}</strong>
-        <span>{displayedCopy.stampCopy}</span>
-      </div>
+      {selectedID === "tickets" ? (
+        <div
+          className="hero__stamp"
+          key={`${selectedID}-${selectedTicketID ?? "feed"}-stamp`}
+          aria-live="polite"
+        >
+          <strong>{displayedCopy.stampTitle}</strong>
+          <span>{displayedCopy.stampCopy}</span>
+        </div>
+      ) : null}
     </div>
   );
 }
