@@ -50,16 +50,41 @@ const ticketScreen = {
   stampCopy: "from the rec.me Feed"
 } as const;
 
+const ticketPlaces = [
+  {
+    id: "bar-nido",
+    label: "Bar Nido",
+    src: "/product/recme-map-social.jpg",
+    alt: "The rec.me iPhone map with the Bar Nido social check-in place card open.",
+    stampTitle: "Bar Nido place card",
+    stampCopy: "from Maya + Ryan’s check-ins"
+  },
+  {
+    id: "larchmont-noodles",
+    label: "Larchmont Noodles",
+    src: "/product/recme-map-wanna.jpg",
+    alt: "The rec.me iPhone map with the Larchmont Noodles Wanna place card open.",
+    stampTitle: "Larchmont Noodles",
+    stampCopy: "saved to Wanna"
+  }
+] as const;
+
 export function InteractiveProductDemo() {
   const [selectedID, setSelectedID] =
     useState<(typeof productScreens)[number]["id"]>("map");
   const [selectedMapID, setSelectedMapID] =
     useState<(typeof mapStates)[number]["id"]>("check-ins");
+  const [selectedTicketID, setSelectedTicketID] =
+    useState<(typeof ticketPlaces)[number]["id"] | null>(null);
   const selectedMap =
     mapStates.find((state) => state.id === selectedMapID) ?? mapStates[2];
+  const selectedTicket = ticketPlaces.find(
+    (place) => place.id === selectedTicketID
+  );
   const selectedScreen =
     productScreens.find((screen) => screen.id === selectedID) ?? productScreens[0];
-  const displayedScreen = selectedID === "map" ? selectedMap : ticketScreen;
+  const displayedScreen =
+    selectedID === "map" ? selectedMap : (selectedTicket ?? ticketScreen);
 
   return (
     <div className="hero__product" aria-label="Explore real rec.me app screens">
@@ -69,7 +94,10 @@ export function InteractiveProductDemo() {
             aria-pressed={screen.id === selectedScreen.id}
             className={screen.id === selectedScreen.id ? "is-active" : undefined}
             key={screen.id}
-            onClick={() => setSelectedID(screen.id)}
+            onClick={() => {
+              setSelectedID(screen.id);
+              setSelectedTicketID(null);
+            }}
             type="button"
           >
             {screen.label}
@@ -77,12 +105,26 @@ export function InteractiveProductDemo() {
         ))}
       </div>
 
+      <div className="product-demo__hint" aria-live="polite">
+        {selectedID === "map" ? (
+          <span>Tap an app filter to change the map</span>
+        ) : selectedTicket ? (
+          <button onClick={() => setSelectedTicketID(null)} type="button">
+            <span aria-hidden="true">←</span> Back to the tickets
+          </button>
+        ) : (
+          <span className="product-demo__hint--glow">
+            <i aria-hidden="true" /> Tap a glowing ticket to open its place card
+          </span>
+        )}
+      </div>
+
       <div className="phone phone--app-screen">
         <Image
           alt={displayedScreen.alt}
           className="product-demo__screen"
           fill
-          key={`${selectedID}-${selectedMapID}`}
+          key={`${selectedID}-${selectedMapID}-${selectedTicketID ?? "feed"}`}
           priority={selectedID === "map"}
           sizes="(max-width: 620px) 320px, 360px"
           src={displayedScreen.src}
@@ -106,11 +148,29 @@ export function InteractiveProductDemo() {
             })}
           </div>
         ) : null}
+
+        {selectedID === "tickets" && !selectedTicket ? (
+          <div
+            className="ticket-hotspots"
+            aria-label="Open a Feed place card"
+            role="group"
+          >
+            {ticketPlaces.map((place) => (
+              <button
+                aria-label={`Open the ${place.label} place card`}
+                className={`ticket-hotspot ticket-hotspot--${place.id}`}
+                key={place.id}
+                onClick={() => setSelectedTicketID(place.id)}
+                type="button"
+              />
+            ))}
+          </div>
+        ) : null}
       </div>
 
       <div
         className="hero__stamp"
-        key={`${selectedID}-${selectedMapID}-stamp`}
+        key={`${selectedID}-${selectedMapID}-${selectedTicketID ?? "feed"}-stamp`}
         aria-live="polite"
       >
         <strong>{displayedScreen.stampTitle}</strong>

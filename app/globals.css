@@ -380,6 +380,62 @@ img {
   background: var(--text-ink);
 }
 
+.product-demo__hint {
+  min-height: 44px;
+  padding: 7px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  background: color-mix(in srgb, var(--surface-bone) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border-hairline) 72%, transparent);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.product-demo__hint button {
+  min-height: 44px;
+  margin: -7px -14px;
+  padding: 7px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--terracotta-dark);
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+}
+
+.product-demo__hint button:hover {
+  color: var(--text-ink);
+}
+
+.product-demo__hint button:focus-visible {
+  outline: 3px solid var(--pin-social);
+  outline-offset: 2px;
+}
+
+.product-demo__hint--glow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.product-demo__hint--glow i {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  background: var(--pin-social);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(105, 184, 215, 0.42);
+  animation: ticket-hint-pulse 2.4s ease-out infinite;
+}
+
 .product-demo__screen {
   object-fit: cover;
   animation: app-screen-arrive 240ms ease-out;
@@ -421,6 +477,88 @@ img {
 .map-filter-button:focus-visible {
   outline: 2px solid var(--text-ink);
   outline-offset: 2px;
+}
+
+.ticket-hotspots {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ticket-hotspot {
+  --ticket-hotspot-color: 105, 184, 215;
+  position: absolute;
+  left: 4%;
+  width: 90%;
+  padding: 0;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: rgba(44, 33, 24, 0.08);
+}
+
+.ticket-hotspot::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border: 1.5px solid rgba(var(--ticket-hotspot-color), 0.78);
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 rgba(var(--ticket-hotspot-color), 0.08);
+  animation: ticket-hotspot-glow 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.ticket-hotspot--bar-nido {
+  top: 38.05%;
+  height: 12.3%;
+}
+
+.ticket-hotspot--larchmont-noodles {
+  --ticket-hotspot-color: 202, 158, 64;
+  top: 51.3%;
+  height: 11.15%;
+}
+
+.ticket-hotspot--larchmont-noodles::after {
+  animation-delay: 0.55s;
+}
+
+.ticket-hotspot:hover::after {
+  border-width: 2px;
+  box-shadow: 0 0 18px 4px rgba(var(--ticket-hotspot-color), 0.34);
+}
+
+.ticket-hotspot:active {
+  transform: scale(0.992);
+}
+
+.ticket-hotspot:focus-visible {
+  outline: 3px solid var(--text-ink);
+  outline-offset: 3px;
+}
+
+@keyframes ticket-hint-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(105, 184, 215, 0.42);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(105, 184, 215, 0);
+  }
+}
+
+@keyframes ticket-hotspot-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--ticket-hotspot-color), 0.08);
+  }
+  50% {
+    box-shadow: 0 0 18px 4px rgba(var(--ticket-hotspot-color), 0.34);
+  }
 }
 
 .phone__top {
@@ -2170,5 +2308,14 @@ img {
 
   .motion-pin {
     transform: rotate(-45deg) !important;
+  }
+
+  .product-demo__hint--glow i,
+  .ticket-hotspot::after {
+    animation: none !important;
+  }
+
+  .ticket-hotspot::after {
+    box-shadow: 0 0 0 2px rgba(var(--ticket-hotspot-color), 0.22);
   }
 }
