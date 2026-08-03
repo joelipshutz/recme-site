@@ -20,6 +20,7 @@ type ExtensionFrame = {
   detail: string;
   view?: ViewportPosition;
   captionAt?: "top" | "bottom";
+  hardwarePress?: boolean;
   tap?: TapCue;
   typing?: {
     text: string;
@@ -30,10 +31,10 @@ type ExtensionFrame = {
   };
 };
 
-const importsTiming = [3200, 3400, 3400, 6000, 4600] as const;
-const actionTiming = [3600, 3200, 4600] as const;
-const widgetsTiming = [3000, 3600, 3600, 3600, 4200] as const;
-const shareTiming = [3200, 3400, 3800, 3600, 4200] as const;
+const importsTiming = [3800, 4000, 4200, 6500, 5200] as const;
+const actionTiming = [4000, 4400, 5000, 4400, 4600, 4800, 5200] as const;
+const widgetsTiming = [3600, 4200, 4200, 4200, 4800] as const;
+const shareTiming = [3800, 4200, 4400, 4400, 4800] as const;
 
 const importsFrames: readonly ExtensionFrame[] = [
   {
@@ -85,21 +86,52 @@ const importsFrames: readonly ExtensionFrame[] = [
 const actionFrames: readonly ExtensionFrame[] = [
   {
     src: "/product/extensions/action-settings.png",
-    caption: "Open Settings → Action Button",
-    detail: "Swipe to Controls, then choose rec.me → Check-in",
+    caption: "In Settings, tap Action Button",
+    detail: "It sits below Accessibility on supported iPhones",
     view: "middle",
     tap: { left: 49, top: 47.8 }
   },
   {
-    src: "/product/recme-live-map.jpg",
+    src: "/product/extensions/action-checkin-selected.jpg",
+    caption: "Swipe until the Controls option is centered",
+    detail: "Tap the control name beneath the iPhone preview to change it",
+    view: "lower",
+    captionAt: "top",
+    tap: { left: 49.5, top: 72.8 }
+  },
+  {
+    src: "/product/extensions/action-control-search.jpg",
+    caption: "Search for rec.me in the Controls picker",
+    detail: "Under rec.me, tap the Check-in control",
+    view: "middle",
+    tap: { left: 15.5, top: 47.2 }
+  },
+  {
+    src: "/product/extensions/action-checkin-selected.jpg",
+    caption: "Confirm that Controls now says Check-in",
+    detail: "There is no extra Save button—the Action Button is ready",
+    view: "lower",
+    captionAt: "top"
+  },
+  {
+    src: "/product/extensions/action-checkin-selected.jpg",
     caption: "Press and hold the physical Action Button",
-    detail: "rec.me opens the nearby check-in route",
-    view: "top"
+    detail: "A quick tap is not enough; hold until the control runs",
+    view: "middle",
+    hardwarePress: true
   },
   {
     src: "/product/recme-live-add-nearby.jpg",
-    caption: "Pick the place you are actually at",
-    detail: "The real Add flow opens with nearby places ready",
+    caption: "rec.me opens Nearby places",
+    detail: "Tap the place you are actually at",
+    view: "middle",
+    captionAt: "top",
+    tap: { left: 49, top: 42 }
+  },
+  {
+    src: "/product/recme-live-checkin-editor.jpg",
+    caption: "Add the detail you want to remember",
+    detail: "Finish the Check-in with a rating, note, categories, and tags",
     view: "middle",
     captionAt: "top"
   }
@@ -206,6 +238,7 @@ function ExtensionRealSequence({
             className="real-app-demo__screen"
             fill
             key={`${frame}-${current.src}`}
+            loading="eager"
             sizes="(max-width: 620px) 420px, 720px"
             src={current.src}
           />
@@ -227,9 +260,15 @@ function ExtensionRealSequence({
             />
           ) : null}
         </div>
+        {current.hardwarePress ? (
+          <span className="extension-real-demo__hardware-press" aria-hidden="true">
+            <i />
+            Press &amp; hold
+          </span>
+        ) : null}
       </div>
       <div className="real-app-demo__caption extension-real-demo__caption" key={`${frame}-${current.caption}`}>
-        <small>REAL IPHONE WALKTHROUGH</small>
+        <small>STEP {frame + 1} OF {frames.length} · REAL IPHONE</small>
         <strong>{current.caption}</strong>
         <span>{current.detail}</span>
       </div>

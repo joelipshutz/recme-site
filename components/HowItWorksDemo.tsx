@@ -58,7 +58,15 @@ export function useDemoSequence(timing: readonly number[]) {
     frame: reducedMotion ? timing.length - 1 : frame,
     paused,
     reducedMotion,
-    togglePaused: () => setPaused((current) => !current)
+    togglePaused: () => setPaused((current) => !current),
+    previousFrame: () => {
+      setPaused(true);
+      setFrame((current) => (current - 1 + timing.length) % timing.length);
+    },
+    nextFrame: () => {
+      setPaused(true);
+      setFrame((current) => (current + 1) % timing.length);
+    }
   };
 }
 
@@ -69,7 +77,9 @@ export function DemoShell({
   frameCount,
   label,
   paused,
+  previousFrame,
   reducedMotion,
+  nextFrame,
   togglePaused,
   viewportClassName
 }: {
@@ -79,7 +89,9 @@ export function DemoShell({
   frameCount: number;
   label: string;
   paused: boolean;
+  previousFrame?: () => void;
   reducedMotion: boolean;
+  nextFrame?: () => void;
   togglePaused: () => void;
   viewportClassName?: string;
 }) {
@@ -104,11 +116,24 @@ export function DemoShell({
       <div className={`app-demo__viewport${viewportClassName ? ` ${viewportClassName}` : ""}`} aria-hidden="true">
         {children}
       </div>
-      <div className="app-demo__progress" aria-hidden="true">
-        {Array.from({ length: frameCount }, (_, index) => (
-          <span className={index === frame ? "is-active" : undefined} key={index} />
-        ))}
-      </div>
+      {previousFrame && nextFrame ? (
+        <div className="app-demo__guided-progress">
+          <button aria-label={`Previous step in ${label}`} onClick={previousFrame} type="button">←</button>
+          <span aria-live="polite">Step {frame + 1} of {frameCount}</span>
+          <div aria-hidden="true">
+            {Array.from({ length: frameCount }, (_, index) => (
+              <i className={index === frame ? "is-active" : undefined} key={index} />
+            ))}
+          </div>
+          <button aria-label={`Next step in ${label}`} onClick={nextFrame} type="button">→</button>
+        </div>
+      ) : (
+        <div className="app-demo__progress" aria-hidden="true">
+          {Array.from({ length: frameCount }, (_, index) => (
+            <span className={index === frame ? "is-active" : undefined} key={index} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -347,9 +372,13 @@ function RealDemo({
 
   return (
     <DemoShell
-      {...sequence}
+      demoRef={sequence.demoRef}
+      frame={sequence.frame}
       frameCount={timing.length}
       label={label}
+      paused={sequence.paused}
+      reducedMotion={sequence.reducedMotion}
+      togglePaused={sequence.togglePaused}
       viewportClassName="app-demo__viewport--focused"
     >
       <RealAppSequence
