@@ -16,19 +16,23 @@ const lessons = [
     copy: "Share a Google Maps place, Instagram post, or TikTok straight to rec.me. For a loose list, paste your Notes text and review every place before it is saved.",
     kind: "imports",
     steps: [
-      "Maps, Instagram, or TikTok: Share → rec.me → Add to rec.me",
-      "Notes or text: Add → Import from → Paste → Review"
+      "Maps, Instagram, or TikTok: open the place or post → Share → rec.me",
+      "In rec.me: tap Add to rec.me → review the match → choose Wanna or Check in",
+      "Notes or text: Add → Import from → Paste one place per line → Review"
     ]
   },
   {
     number: "02",
     eyebrow: "Your Action Button",
     title: "Make checking in a physical shortcut.",
-    copy: "Assign rec.me’s Check-in control to the iPhone Action Button. A press opens nearby places, ready for the note you want future-you to remember.",
+    copy: "Assign rec.me’s Check-in control to the iPhone Action Button. Once it is configured, a press and hold opens nearby places, ready for the note you want future-you to remember.",
     kind: "action",
     steps: [
-      "Settings → Action Button → Controls → rec.me → Check-in",
-      "Press and hold → choose the nearby place → finish the Check-in"
+      "Open iPhone Settings → Action Button",
+      "Swipe through the choices until Controls is centered",
+      "Tap Choose a Control → search rec.me → select Check-in",
+      "Confirm the Controls screen says Check-in—Settings saves it automatically",
+      "Press and hold the Action Button → choose the nearby place → finish the Check-in"
     ]
   },
   {
@@ -38,7 +42,8 @@ const lessons = [
     copy: "Add I’m Here Now, Search rec.me, Activity Calendar, Nearby Places, or the Check-in Control. Choose the surface and size that match how you use rec.me.",
     kind: "widgets",
     steps: [
-      "Home Screen: Nearby Rich Visit, I’m Here Now, Search, or Activity Calendar",
+      "Touch and hold the Home Screen → Edit → Add Widget → search rec.me",
+      "Choose Nearby Rich Visit, I’m Here Now, Search, or Activity Calendar",
       "Control Center or Action Button: add the rec.me Check-in Control"
     ]
   },
@@ -49,7 +54,8 @@ const lessons = [
     copy: "In another app, tap Share and choose rec.me. If it is hidden, open More, tap Edit, and favorite rec.me so it stays in the first row next time.",
     kind: "share",
     steps: [
-      "Share → More → Edit → add rec.me to Favorites",
+      "In Maps, Safari, Instagram, TikTok, or Notes: tap Share",
+      "If rec.me is hidden: More → Edit → add rec.me to Favorites",
       "Next time: Share → rec.me → Add to rec.me"
     ]
   }
