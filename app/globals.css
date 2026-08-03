@@ -120,6 +120,10 @@ img {
   color: var(--terracotta-dark);
 }
 
+.mobile-site-nav {
+  display: none;
+}
+
 .brand-mark {
   display: inline-flex;
   flex-direction: column;
@@ -3538,6 +3542,64 @@ img {
     display: none;
   }
 
+  .site-header__inner {
+    flex-wrap: wrap;
+    column-gap: 16px;
+    row-gap: 0;
+    padding-top: 8px;
+  }
+
+  .mobile-site-nav {
+    width: 100%;
+    padding: 7px 0 9px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-site-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-site-nav a {
+    min-height: 44px;
+    padding: 10px 14px;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
+    text-decoration: none;
+    scroll-snap-align: start;
+  }
+
+  .mobile-site-nav a:hover {
+    color: var(--terracotta-dark);
+    background: color-mix(in srgb, var(--terracotta) 8%, transparent);
+  }
+
+  .mobile-site-nav a[aria-current="page"] {
+    color: var(--text-ink);
+    background: var(--surface-bone);
+    border-color: color-mix(in srgb, var(--terracotta) 48%, var(--border-hairline));
+    box-shadow: 0 5px 14px rgba(77, 47, 29, 0.08);
+  }
+
+  .mobile-site-nav a:focus-visible {
+    outline: 3px solid var(--pin-social);
+    outline-offset: 2px;
+  }
+
   .hero {
     padding-top: 64px;
     grid-template-columns: 1fr;
@@ -3651,6 +3713,7 @@ img {
   .site-header__inner {
     width: min(calc(100% - 28px), var(--content-width));
     min-height: 64px;
+    padding-top: 7px;
   }
 
   .site-nav {
@@ -3660,6 +3723,14 @@ img {
   .site-nav .button {
     min-height: 44px;
     padding-inline: 13px;
+  }
+
+  .mobile-site-nav {
+    gap: 5px;
+  }
+
+  .mobile-site-nav a {
+    padding-inline: 10px;
   }
 
   .hero,
