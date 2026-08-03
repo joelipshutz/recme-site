@@ -10,7 +10,8 @@ export function SiteHeader() {
           <BrandMark compact />
         </Link>
         <nav className="site-nav" aria-label="Main navigation">
-          <Link href="/#how-it-works">How it works</Link>
+          <Link href="/how-it-works">How it works</Link>
+          <Link href="/extensions">Extensions</Link>
           <Link href="/support">Support</Link>
           <a className="button button--small" href={primaryDownloadURL}>
             {primaryDownloadLabel}

@@ -40,7 +40,7 @@ export default function PrivacyPage() {
 
         <h3>Places and content you create</h3>
         <p>
-          rec.me stores the places you save, Been or Wanna Go status, ratings,
+          rec.me stores the places you save, Check-in or Wanna Go status, ratings,
           notes, tags, answers, lists, collaborative-list activity, check-ins,
           imported links, source information, and photos you choose to add.
           Some content may include location information associated with a

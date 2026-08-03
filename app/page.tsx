@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { BrandMark } from "@/components/BrandMark";
+import Image from "next/image";
+import { InteractiveProductDemo } from "@/components/InteractiveProductDemo";
 import { primaryDownloadLabel, primaryDownloadURL } from "@/lib/site";
 
 const trustNotes = [
@@ -17,21 +18,45 @@ const trustNotes = [
   }
 ];
 
-const steps = [
+const memoryMoments = [
   {
     number: "01",
-    title: "Save the place while it’s fresh",
-    copy: "Mark Been or Wanna Go, then add only the details future-you will actually use."
+    eyebrow: "Maya · last Friday",
+    title: "Save the part you’ll forget.",
+    copy: "Maya checks in at Bar Nido and keeps the useful detail: warm room, great pasta, easy to talk.",
+    actor: "Maya",
+    initials: "M",
+    ticketEyebrow: "CHECKED IN · LAST FRIDAY",
+    artifact: "Bar Nido",
+    meta: "Restaurant · Los Angeles · ★ 4",
+    note: "Good service and easy to talk.",
+    tone: "social"
   },
   {
     number: "02",
-    title: "Keep your real context",
-    copy: "Remember the table, trail, dish, vibe, or person who made the place matter."
+    eyebrow: "The trusted layer",
+    title: "See the people behind the pin.",
+    copy: "Joe and Ryan check in too. Their notes stay attached, so the recommendation has a point of view.",
+    actor: "Joe + Ryan",
+    initials: "+2",
+    ticketEyebrow: "CHECKED IN TOO",
+    artifact: "Bar Nido",
+    meta: "3 trusted check-ins",
+    note: "Warm room · great pasta · get the bar seats.",
+    tone: "social"
   },
   {
     number: "03",
-    title: "Find it when the moment comes",
-    copy: "Search by place, category, area, person, or the kind of outing you need."
+    eyebrow: "Six months later",
+    title: "Ask the way you actually think.",
+    copy: "Search “date night where we can talk” and Bar Nido comes back with the people and reasons that made it useful.",
+    actor: "Your search",
+    initials: "Y",
+    ticketEyebrow: "FOUND FROM CHECK-INS",
+    artifact: "Bar Nido",
+    meta: "date night where we can talk",
+    note: "Recommended by Maya + 2 friends.",
+    tone: "you"
   }
 ];
 
@@ -53,7 +78,7 @@ export default function HomePage() {
             <a className="button" href={primaryDownloadURL}>
               {primaryDownloadLabel}
             </a>
-            <Link className="button button--secondary" href="#how-it-works">
+            <Link className="button button--secondary" href="/how-it-works">
               See how it works
             </Link>
           </div>
@@ -62,46 +87,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="hero__product" aria-label="rec.me map preview">
-          <div className="phone">
-            <div className="phone__top">
-              <BrandMark compact />
-              <span className="phone__avatar">RL</span>
-            </div>
-            <div className="phone__search">Where should we go?</div>
-            <div className="phone__chips">
-              <span>You</span>
-              <span>Friends</span>
-              <span>Been</span>
-            </div>
-            <div className="product-map">
-              <span className="map-block map-block--one" />
-              <span className="map-block map-block--two" />
-              <span className="map-block map-block--three" />
-              <span className="map-road map-road--one" />
-              <span className="map-road map-road--two" />
-              <span className="map-road map-road--three" />
-              <span className="map-pin map-pin--terracotta map-pin--hero-one" />
-              <span className="map-pin map-pin--sky map-pin--hero-two" />
-              <span className="map-pin map-pin--moss map-pin--hero-three" />
-              <span className="map-pin map-pin--terracotta map-pin--hero-four" />
-            </div>
-            <div className="place-sheet">
-              <span className="place-sheet__grab" />
-              <p className="eyebrow">Saved from Maya</p>
-              <h2>Bar Nido</h2>
-              <p>date night · warm room · easy conversation</p>
-              <div className="place-sheet__actions">
-                <span>Been</span>
-                <span>Directions</span>
-              </div>
-            </div>
-          </div>
-          <div className="hero__stamp">
-            <strong>3 friends</strong>
-            <span>have been here</span>
-          </div>
-        </div>
+        <InteractiveProductDemo />
       </section>
 
       <section className="trust-strip" aria-label="Product principles">
@@ -122,31 +108,46 @@ export default function HomePage() {
             generic bookmark folder.
           </p>
         </header>
-        <div className="step-grid">
-          {steps.map((step) => (
-            <article className="step" key={step.number}>
-              <span>{step.number}</span>
-              <h3>{step.title}</h3>
-              <p>{step.copy}</p>
+        <div className="memory-story">
+          {memoryMoments.map((moment) => (
+            <article className="memory-moment" key={moment.number}>
+              <div className="memory-moment__rail" aria-hidden="true">
+                <span>{moment.number}</span>
+              </div>
+              <div className="memory-moment__copy">
+                <p className="eyebrow">{moment.eyebrow}</p>
+                <h3>{moment.title}</h3>
+                <p>{moment.copy}</p>
+              </div>
+              <div className={`memory-ticket memory-ticket--${moment.tone}`}>
+                <div className="memory-ticket__header">
+                  <span className="memory-ticket__avatar" aria-hidden="true">
+                    {moment.initials}
+                  </span>
+                  <span className="memory-ticket__identity">
+                    <strong>{moment.actor}</strong>
+                    <small>{moment.ticketEyebrow}</small>
+                  </span>
+                  <span className="memory-ticket__status" aria-hidden="true">✓</span>
+                </div>
+                <strong className="memory-ticket__place">{moment.artifact}</strong>
+                <span className="memory-ticket__meta">{moment.meta}</span>
+                <em>“{moment.note}”</em>
+              </div>
             </article>
           ))}
         </div>
       </section>
 
       <section className="section section--feature">
-        <div className="feature-map" aria-hidden="true">
-          <div className="feature-map__label feature-map__label--one">
-            <span className="map-pin map-pin--terracotta" />
-            <strong>Your Been places</strong>
-          </div>
-          <div className="feature-map__label feature-map__label--two">
-            <span className="map-pin map-pin--sky" />
-            <strong>Trusted people</strong>
-          </div>
-          <div className="feature-map__label feature-map__label--three">
-            <span className="map-pin map-pin--moss" />
-            <strong>Worth a detour</strong>
-          </div>
+        <div className="feature-map feature-map--screenshot">
+          <Image
+            alt="The rec.me app map showing personal and social place pins with the Woodcat Coffee recommendation ticket selected."
+            className="feature-map__screen"
+            fill
+            sizes="(max-width: 900px) 100vw, 52vw"
+            src="/product/recme-map-ticket.jpg"
+          />
         </div>
         <div className="feature-copy">
           <p className="eyebrow">Trust travels with the place</p>
@@ -156,7 +157,7 @@ export default function HomePage() {
             remember what your people thought—and whether it fits this moment.
           </p>
           <ul className="check-list">
-            <li>One map for Been and Wanna Go</li>
+            <li>One map for Check-ins and Wanna Go</li>
             <li>Follower and friend visibility, never a public feed</li>
             <li>Notes, ratings, tags, lists, and check-ins in context</li>
           </ul>
