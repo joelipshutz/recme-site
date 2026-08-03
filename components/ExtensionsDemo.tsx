@@ -1,256 +1,325 @@
 "use client";
 
+import Image from "next/image";
+import type { CSSProperties } from "react";
+import { useEffect, useState } from "react";
 import { DemoShell, useDemoSequence } from "@/components/HowItWorksDemo";
 
 export type ExtensionsDemoKind = "imports" | "action" | "widgets" | "share";
 
-const importTiming = [1200, 1500, 1500, 1500, 1700, 2500] as const;
-const actionTiming = [1300, 1700, 900, 2600] as const;
-const widgetTiming = [1200, 1800, 1900, 1900, 2500] as const;
-const shareTiming = [1200, 1500, 2000, 1700, 2500] as const;
+type ViewportPosition = "top" | "upper" | "middle" | "lower" | "bottom" | "deep";
 
-const importSources = [
-  ["Google Maps", "📍"],
-  ["Instagram", "◎"],
-  ["TikTok", "♪"],
-  ["Notes or text", "▤"]
-] as const;
+type TapCue = {
+  left: number;
+  top: number;
+};
 
-function ShareSheet({ source }: { source: string }) {
+type ExtensionFrame = {
+  src: string;
+  caption: string;
+  detail: string;
+  view?: ViewportPosition;
+  captionAt?: "top" | "bottom";
+  tap?: TapCue;
+  typing?: {
+    text: string;
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+  };
+};
+
+const importsTiming = [3200, 3400, 3400, 6000, 4600] as const;
+const actionTiming = [3600, 3200, 4600] as const;
+const widgetsTiming = [3000, 3600, 3600, 3600, 4200] as const;
+const shareTiming = [3200, 3400, 3800, 3600, 4200] as const;
+
+const importsFrames: readonly ExtensionFrame[] = [
+  {
+    src: "/product/extensions/import-entry.png",
+    caption: "Open Add, then tap Import from",
+    detail: "The real app accepts Google Maps, Instagram, TikTok, Notes, and more",
+    view: "deep",
+    captionAt: "top",
+    tap: { left: 50, top: 89 }
+  },
+  {
+    src: "/product/extensions/share-sheet-google-maps.png",
+    caption: "Choose rec.me from the real iPhone share sheet",
+    detail: "Google Maps · Instagram · TikTok",
+    view: "top",
+    captionAt: "top",
+    tap: { left: 61.5, top: 27.6 }
+  },
+  {
+    src: "/product/extensions/share-extension-ready.png",
+    caption: "Tap Add to rec.me",
+    detail: "The source link comes with the place",
+    view: "middle",
+    tap: { left: 50, top: 55.1 }
+  },
+  {
+    src: "/product/extensions/import-hub.png",
+    caption: "Paste links or type one place per line",
+    detail: "Watch the places appear in rec.me’s real Import form",
+    view: "middle",
+    captionAt: "top",
+    typing: {
+      text: "Woodcat Coffee, Los Angeles\nBar Nido, Los Angeles\nWax Paper, Frogtown",
+      left: 6.5,
+      top: 43.1,
+      width: 87,
+      height: 22
+    }
+  },
+  {
+    src: "/product/extensions/import-review.png",
+    caption: "Review every match before you save it",
+    detail: "Choose Wanna or Check in, resolve uncertain matches, and keep control",
+    view: "middle",
+    captionAt: "top"
+  }
+];
+
+const actionFrames: readonly ExtensionFrame[] = [
+  {
+    src: "/product/extensions/action-settings.png",
+    caption: "Open Settings → Action Button",
+    detail: "Swipe to Controls, then choose rec.me → Check-in",
+    view: "middle",
+    tap: { left: 49, top: 47.8 }
+  },
+  {
+    src: "/product/recme-live-map.jpg",
+    caption: "Press and hold the physical Action Button",
+    detail: "rec.me opens the nearby check-in route",
+    view: "top"
+  },
+  {
+    src: "/product/recme-live-add-nearby.jpg",
+    caption: "Pick the place you are actually at",
+    detail: "The real Add flow opens with nearby places ready",
+    view: "middle",
+    captionAt: "top"
+  }
+];
+
+const widgetsFrames: readonly ExtensionFrame[] = [
+  {
+    src: "/product/extensions/widgets-edit-home.png",
+    caption: "Touch and hold the Home Screen, then tap Edit",
+    detail: "Choose Add Widget and search for rec.me",
+    view: "top",
+    tap: { left: 17.5, top: 3.7 }
+  },
+  {
+    src: "/product/extensions/widget-nearby.png",
+    caption: "Nearby Rich Visit keeps close places one tap away",
+    detail: "Large widget · choose a nearby place to check in",
+    view: "middle",
+    captionAt: "top"
+  },
+  {
+    src: "/product/extensions/widget-here-now.png",
+    caption: "I’m here now starts a Check-in immediately",
+    detail: "Small widget · ideal for fast capture",
+    view: "middle",
+    captionAt: "top"
+  },
+  {
+    src: "/product/extensions/widget-search.png",
+    caption: "Search rec.me jumps straight to place search",
+    detail: "Medium widget · type the moment you land",
+    view: "middle",
+    captionAt: "top"
+  },
+  {
+    src: "/product/recme-live-add-nearby.jpg",
+    caption: "Every shortcut lands in the real rec.me flow",
+    detail: "Activity Calendar and Check-in Control are available too",
+    view: "middle",
+    captionAt: "top"
+  }
+];
+
+const shareFrames: readonly ExtensionFrame[] = [
+  {
+    src: "/product/extensions/share-sheet-google-maps.png",
+    caption: "Look for rec.me in the first row",
+    detail: "The same share target appears in Maps, Safari, social apps, and Notes",
+    view: "top",
+    captionAt: "top",
+    tap: { left: 61.5, top: 27.6 }
+  },
+  {
+    src: "/product/extensions/share-sheet-google-maps.png",
+    caption: "If it is hidden, tap More",
+    detail: "This opens the complete list of share targets",
+    view: "top",
+    captionAt: "top",
+    tap: { left: 85.5, top: 27.6 }
+  },
+  {
+    src: "/product/extensions/share-more-apps.png",
+    caption: "Find rec.me under Apps, then tap Edit",
+    detail: "You only have to set this up once",
+    view: "top",
+    tap: { left: 90.2, top: 8.7 }
+  },
+  {
+    src: "/product/extensions/share-edit-favorites.png",
+    caption: "Add rec.me to Favorites",
+    detail: "It stays within reach the next time you share a place",
+    view: "top",
+    tap: { left: 12.9, top: 29.3 }
+  },
+  {
+    src: "/product/extensions/share-extension-ready.png",
+    caption: "The real extension queues the link for rec.me",
+    detail: "Tap Add to rec.me, then review the place in the app",
+    view: "middle",
+    captionAt: "top",
+    tap: { left: 50, top: 55.1 }
+  }
+];
+
+function ExtensionRealSequence({
+  frame,
+  frames,
+  paused,
+  reducedMotion
+}: {
+  frame: number;
+  frames: readonly ExtensionFrame[];
+  paused: boolean;
+  reducedMotion: boolean;
+}) {
+  const current = frames[Math.min(frame, frames.length - 1)];
+
   return (
-    <div className="extension-share-sheet extension-rise">
-      <span className="app-demo__grab" />
-      <small>SHARE FROM {source.toUpperCase()}</small>
-      <div className="extension-share-sheet__apps">
-        <span><i>✉</i>Messages</span>
-        <span><i>↗</i>AirDrop</span>
-        <span className="is-recme"><i>⌖</i>rec.me</span>
-        <span><i>•••</i>More</span>
+    <div className={`real-app-demo extension-real-demo real-app-demo--caption-${current.captionAt ?? "bottom"}${paused ? " is-paused" : ""}`}>
+      <div className="real-app-demo__phone">
+        <div className={`real-app-demo__canvas real-app-demo__canvas--${current.view ?? "top"}`}>
+          <Image
+            alt=""
+            className="real-app-demo__screen"
+            fill
+            key={`${frame}-${current.src}`}
+            sizes="(max-width: 620px) 420px, 720px"
+            src={current.src}
+          />
+          {current.tap ? (
+            <span
+              className="extension-real-demo__tap"
+              style={{
+                "--tap-left": `${current.tap.left}%`,
+                "--tap-top": `${current.tap.top}%`
+              } as CSSProperties}
+            />
+          ) : null}
+          {current.typing ? (
+            <TypedImportText
+              frame={frame}
+              paused={paused}
+              reducedMotion={reducedMotion}
+              typing={current.typing}
+            />
+          ) : null}
+        </div>
       </div>
-      <strong><i aria-hidden="true">⌖</i> Save places to rec.me</strong>
+      <div className="real-app-demo__caption extension-real-demo__caption" key={`${frame}-${current.caption}`}>
+        <small>REAL IPHONE WALKTHROUGH</small>
+        <strong>{current.caption}</strong>
+        <span>{current.detail}</span>
+      </div>
     </div>
   );
 }
 
-function ImportsDemo() {
-  const sequence = useDemoSequence(importTiming);
-  const { frame } = sequence;
-  const activeSource = frame >= 1 && frame <= 4 ? importSources[frame - 1] : null;
+function TypedImportText({
+  frame,
+  paused,
+  reducedMotion,
+  typing
+}: {
+  frame: number;
+  paused: boolean;
+  reducedMotion: boolean;
+  typing: NonNullable<ExtensionFrame["typing"]>;
+}) {
+  const [visibleCharacters, setVisibleCharacters] = useState(reducedMotion ? typing.text.length : 0);
+  const renderedCharacters = reducedMotion ? typing.text.length : visibleCharacters;
+
+  useEffect(() => {
+    if (reducedMotion || paused) return;
+
+    const interval = window.setInterval(() => {
+      setVisibleCharacters((current) => {
+        if (current >= typing.text.length) {
+          window.clearInterval(interval);
+          return current;
+        }
+        return current + 1;
+      });
+    }, 58);
+
+    return () => window.clearInterval(interval);
+  }, [frame, paused, reducedMotion, typing.text]);
 
   return (
-    <DemoShell
-      {...sequence}
-      frameCount={importTiming.length}
-      label="Looping tutorial for importing places from Google Maps, Instagram, TikTok, and notes"
+    <span
+      className="extension-real-demo__typing"
+      style={{
+        "--typing-left": `${typing.left}%`,
+        "--typing-top": `${typing.top}%`,
+        "--typing-width": `${typing.width}%`,
+        "--typing-height": `${typing.height}%`
+      } as CSSProperties}
     >
-      <div className="extension-demo extension-demo--imports">
-        <header className="extension-app-header"><span>‹</span><strong>Import places</strong><span>?</span></header>
-        {frame === 0 ? (
-          <div className="extension-source-grid extension-rise">
-            <small>WHERE DID YOU SAVE IT?</small>
-            {importSources.map(([name, icon]) => (
-              <span key={name}><i aria-hidden="true">{icon}</i><strong>{name}</strong><small>Share or paste</small></span>
-            ))}
-          </div>
-        ) : null}
-
-        {activeSource && frame < 4 ? (
-          <>
-            <div className={`extension-source-preview extension-source-preview--${frame} extension-rise`}>
-              <span aria-hidden="true">{activeSource[1]}</span>
-              <small>{activeSource[0]}</small>
-              <strong>{frame === 1 ? "Woodcat Coffee" : frame === 2 ? "5 coffee shops for a slow LA morning" : "The best noodles in Larchmont"}</strong>
-              <em>{frame === 1 ? "Sunset Blvd · Los Angeles" : frame === 2 ? "@maya_places · saved post" : "@ryaneats · 0:18"}</em>
-              <b>↗ Share</b>
-            </div>
-            <ShareSheet source={activeSource[0]} />
-          </>
-        ) : null}
-
-        {frame === 4 ? (
-          <div className="extension-notes extension-rise">
-            <div className="extension-notes__paper">
-              <small>LA places</small>
-              <p>Woodcat Coffee — quiet patio, wifi</p>
-              <p>Bar Nido — Maya says bar seats</p>
-              <p>Larchmont Noodles — rainy night</p>
-            </div>
-            <span>Paste text into rec.me</span>
-          </div>
-        ) : null}
-
-        {frame >= 5 ? (
-          <div className="extension-import-review extension-rise">
-            <small className="app-demo__kicker">READY TO REVIEW</small>
-            <h3>4 places found</h3>
-            {[
-              ["Woodcat Coffee", "Google Maps", "☕"],
-              ["Bar Nido", "Instagram", "🍝"],
-              ["Larchmont Noodles", "TikTok", "🍜"],
-              ["Wax Paper", "Pasted text", "🥪"]
-            ].map(([place, source, icon]) => (
-              <div key={place}><span>{icon}</span><strong>{place}<small>{source}</small></strong><i>✓</i></div>
-            ))}
-            <b>Review &amp; save 4 places</b>
-          </div>
-        ) : null}
-      </div>
-    </DemoShell>
+      {typing.text.slice(0, renderedCharacters)}
+      {!reducedMotion ? <i className="real-app-demo__caret" /> : null}
+    </span>
   );
 }
 
-function ActionButtonDemo() {
-  const sequence = useDemoSequence(actionTiming);
-  const { frame } = sequence;
+function RealExtensionDemo({
+  frames,
+  label,
+  timing
+}: {
+  frames: readonly ExtensionFrame[];
+  label: string;
+  timing: readonly number[];
+}) {
+  const sequence = useDemoSequence(timing);
 
   return (
     <DemoShell
       {...sequence}
-      frameCount={actionTiming.length}
-      label="Looping tutorial for setting up and using the iPhone Action Button with rec.me"
+      frameCount={frames.length}
+      label={label}
+      viewportClassName="app-demo__viewport--focused"
     >
-      <div className="extension-demo extension-demo--action">
-        {frame < 2 ? (
-          <div className="extension-settings extension-rise">
-            <header><span>‹ Settings</span><strong>Action Button</strong><span /></header>
-            <div className="extension-phone-side"><i className={frame === 1 ? "is-selected" : undefined}>⌖</i></div>
-            <small>{frame === 0 ? "Swipe to Shortcut" : "SHORTCUT SELECTED"}</small>
-            <h3>{frame === 0 ? "Shortcut" : "rec.me: Check In Here"}</h3>
-            <p>{frame === 0 ? "Run a favorite action without unlocking your phone." : "Open nearby places whenever you press the Action Button."}</p>
-            {frame === 1 ? <b className="extension-setting-confirm">✓ Ready</b> : <span className="extension-setting-picker">Choose a Shortcut →</span>}
-          </div>
-        ) : null}
-
-        {frame === 2 ? (
-          <div className="extension-action-press extension-rise">
-            <div className="extension-action-phone"><span className="extension-action-button" /><i>⌖</i></div>
-            <strong>Press and hold</strong><small>Action Button</small>
-          </div>
-        ) : null}
-
-        {frame >= 3 ? (
-          <div className="extension-nearby extension-rise">
-            <header><span>⌖</span><div><small>REC.ME ACTION</small><strong>Check in nearby</strong></div></header>
-            <p>Choose the place you’re at.</p>
-            {[["Woodcat Coffee", "250 ft", "☕"], ["Bacari Silverlake", "0.2 mi", "🍝"], ["Circuit Coffee", "0.4 mi", "☕"]].map(([place, distance, icon]) => (
-              <div key={place}><span>{icon}</span><strong>{place}<small>{distance}</small></strong><b>＋</b></div>
-            ))}
-            <em>Search somewhere else</em>
-          </div>
-        ) : null}
-      </div>
-    </DemoShell>
-  );
-}
-
-const widgets = [
-  ["I’m here now", "Quick capture", "⌖"],
-  ["Quick Search", "Find your memory", "⌕"],
-  ["Activity Calendar", "Your place rhythm", "▦"],
-  ["Nearby Places", "Rich visit", "↗"],
-  ["Check-in Control", "Control Center", "＋"]
-] as const;
-
-function WidgetsDemo() {
-  const sequence = useDemoSequence(widgetTiming);
-  const { frame } = sequence;
-
-  return (
-    <DemoShell
-      {...sequence}
-      frameCount={widgetTiming.length}
-      label="Looping tutorial for adding every rec.me Home Screen, Lock Screen, and Control Center widget"
-    >
-      <div className="extension-demo extension-demo--widgets">
-        {frame === 0 ? (
-          <div className="extension-home-screen extension-rise">
-            <small>9:41</small>
-            <div className="extension-home-icons">{["☀", "◉", "✉", "♫", "▦", "⌁", "☁", "⌕"].map((icon, index) => <i key={`${icon}-${index}`}>{icon}</i>)}</div>
-            <span className="extension-jiggle-plus">＋</span>
-            <strong>Touch and hold, then tap ＋</strong>
-          </div>
-        ) : null}
-
-        {frame === 1 ? (
-          <div className="extension-widget-gallery extension-rise">
-            <header><span>Cancel</span><strong>Add Widgets</strong><span /></header>
-            <div className="extension-widget-search">⌕ Search Widgets</div>
-            <small>REC.ME WIDGETS</small>
-            {widgets.map(([name, description, icon]) => (
-              <div key={name}><i>{icon}</i><strong>{name}<small>{description}</small></strong><span>＋</span></div>
-            ))}
-          </div>
-        ) : null}
-
-        {frame === 2 ? (
-          <div className="extension-widget-families extension-rise">
-            <small>CHOOSE A SIZE</small>
-            <div className="extension-widget-small"><i>⌖</i><strong>I’m here now</strong><span>Save this place</span></div>
-            <div className="extension-widget-wide"><i>⌕</i><strong>Quick Search</strong><span>What are you looking for?</span></div>
-            <div className="extension-widget-lock"><span>⌖</span><strong>Lock Screen</strong><span>rec.me nearby</span></div>
-            <b>Add Widget</b>
-          </div>
-        ) : null}
-
-        {frame === 3 ? (
-          <div className="extension-widget-places extension-rise">
-            <small>PUT REC.ME WHERE YOU NEED IT</small>
-            <div><span>Home Screen</span><i className="extension-mini-widget">⌕<b>Find a place</b></i></div>
-            <div><span>Lock Screen</span><i className="extension-lock-widget">⌖</i></div>
-            <div><span>Control Center</span><i className="extension-control-widget">＋<b>Check in</b></i></div>
-          </div>
-        ) : null}
-
-        {frame >= 4 ? (
-          <div className="extension-widget-result extension-rise">
-            <div className="extension-live-widget"><small>NEARBY NOW</small><strong>3 saved places close by</strong><span>Woodcat Coffee · 250 ft</span><span>Bacari Silverlake · 0.2 mi</span><b>Open nearby places →</b></div>
-            <p><span>✓</span> One tap opens the right rec.me view.</p>
-          </div>
-        ) : null}
-      </div>
-    </DemoShell>
-  );
-}
-
-function ShareExtensionDemo() {
-  const sequence = useDemoSequence(shareTiming);
-  const { frame } = sequence;
-
-  return (
-    <DemoShell
-      {...sequence}
-      frameCount={shareTiming.length}
-      label="Looping tutorial showing where to find and favorite the rec.me share extension"
-    >
-      <div className="extension-demo extension-demo--share">
-        {frame === 0 ? (
-          <div className="extension-any-app extension-rise"><small>FROM ALMOST ANY APP</small><span>📍</span><strong>Found a place?</strong><p>Tap the app’s Share button.</p><b>↗ Share</b></div>
-        ) : null}
-        {frame === 1 ? <ShareSheet source="any app" /> : null}
-        {frame === 2 ? (
-          <div className="extension-more-sheet extension-rise">
-            <header><span>Cancel</span><strong>Apps</strong><span>Edit</span></header>
-            <small>FAVORITES</small>
-            {["Messages", "Mail", "rec.me"].map((app) => <div className={app === "rec.me" ? "is-recme" : undefined} key={app}><i>{app === "rec.me" ? "⌖" : "○"}</i><strong>{app}</strong><span>{app === "rec.me" ? "☆" : "−"}</span></div>)}
-            <p>Tap the star to keep rec.me in the first row.</p>
-          </div>
-        ) : null}
-        {frame === 3 ? (
-          <div className="extension-favorite-sheet extension-rise"><small>YOUR FAVORITES</small><div><i>✉</i><span>Messages</span></div><div className="is-recme"><i>⌖</i><span>rec.me</span><b>Always easy to find</b></div><div><i>•••</i><span>More</span></div></div>
-        ) : null}
-        {frame >= 4 ? (
-          <div className="extension-share-review extension-rise"><small className="app-demo__kicker">SHARED TO REC.ME</small><span>☕</span><h3>Woodcat Coffee</h3><p>We found the place and carried over the source link.</p><div><i>✓</i> Place matched</div><div><i>＋</i> Add a note or tags</div><b>Save to Wanna</b></div>
-        ) : null}
-      </div>
+      <ExtensionRealSequence
+        frame={sequence.frame}
+        frames={frames}
+        paused={sequence.paused}
+        reducedMotion={sequence.reducedMotion}
+      />
     </DemoShell>
   );
 }
 
 export function ExtensionsDemo({ kind }: { kind: ExtensionsDemoKind }) {
   switch (kind) {
-    case "imports": return <ImportsDemo />;
-    case "action": return <ActionButtonDemo />;
-    case "widgets": return <WidgetsDemo />;
-    case "share": return <ShareExtensionDemo />;
+    case "imports":
+      return <RealExtensionDemo frames={importsFrames} label="Real iPhone walkthrough for importing a place into rec.me" timing={importsTiming} />;
+    case "action":
+      return <RealExtensionDemo frames={actionFrames} label="Real iPhone walkthrough for setting up and using the rec.me Action Button" timing={actionTiming} />;
+    case "widgets":
+      return <RealExtensionDemo frames={widgetsFrames} label="Real iPhone walkthrough for adding and using rec.me widgets" timing={widgetsTiming} />;
+    case "share":
+      return <RealExtensionDemo frames={shareFrames} label="Real iPhone walkthrough for finding and favoriting the rec.me share extension" timing={shareTiming} />;
   }
 }

@@ -14,28 +14,44 @@ const lessons = [
     eyebrow: "Import from anywhere",
     title: "Bring the place. Keep the source.",
     copy: "Share a Google Maps place, Instagram post, or TikTok straight to rec.me. For a loose list, paste your Notes text and review every place before it is saved.",
-    kind: "imports"
+    kind: "imports",
+    steps: [
+      "Maps, Instagram, or TikTok: Share → rec.me → Add to rec.me",
+      "Notes or text: Add → Import from → Paste → Review"
+    ]
   },
   {
     number: "02",
     eyebrow: "Your Action Button",
     title: "Make checking in a physical shortcut.",
-    copy: "Assign rec.me’s Check In Here shortcut to the iPhone Action Button. A press opens nearby places, ready for the note you want future-you to remember.",
-    kind: "action"
+    copy: "Assign rec.me’s Check-in control to the iPhone Action Button. A press opens nearby places, ready for the note you want future-you to remember.",
+    kind: "action",
+    steps: [
+      "Settings → Action Button → Controls → rec.me → Check-in",
+      "Press and hold → choose the nearby place → finish the Check-in"
+    ]
   },
   {
     number: "03",
     eyebrow: "Home, Lock, and Control Center",
     title: "Put the right shortcut one tap away.",
-    copy: "Add I’m Here Now, Quick Search, Activity Calendar, Nearby Places, or the Check-in Control. Choose the surface and size that match how you use rec.me.",
-    kind: "widgets"
+    copy: "Add I’m Here Now, Search rec.me, Activity Calendar, Nearby Places, or the Check-in Control. Choose the surface and size that match how you use rec.me.",
+    kind: "widgets",
+    steps: [
+      "Home Screen: Nearby Rich Visit, I’m Here Now, Search, or Activity Calendar",
+      "Control Center or Action Button: add the rec.me Check-in Control"
+    ]
   },
   {
     number: "04",
     eyebrow: "The rec.me share extension",
     title: "Find it once. Keep it within reach.",
     copy: "In another app, tap Share and choose rec.me. If it is hidden, open More, tap Edit, and favorite rec.me so it stays in the first row next time.",
-    kind: "share"
+    kind: "share",
+    steps: [
+      "Share → More → Edit → add rec.me to Favorites",
+      "Next time: Share → rec.me → Add to rec.me"
+    ]
   }
 ] as const;
 
@@ -65,7 +81,7 @@ export default function ExtensionsPage() {
       <section className="extensions-intro">
         <p className="eyebrow">Four small superpowers</p>
         <h2>rec.me should be close when a place is worth keeping.</h2>
-        <p>Each simulation loops automatically. Pause any one when you want to follow a step at your own pace.</p>
+        <p>Each walkthrough uses actual rec.me and iPhone screens. The slow, focused loops pause whenever you want to follow a step at your own pace.</p>
       </section>
 
       <section className="extensions-lessons" id="extension-lessons">
@@ -76,6 +92,9 @@ export default function ExtensionsPage() {
               <p className="eyebrow">{lesson.eyebrow}</p>
               <h2>{lesson.title}</h2>
               <p>{lesson.copy}</p>
+              <ol className="extension-lesson__steps" aria-label={`${lesson.title} steps`}>
+                {lesson.steps.map((step) => <li key={step}>{step}</li>)}
+              </ol>
             </div>
             <ExtensionsDemo kind={lesson.kind} />
           </article>

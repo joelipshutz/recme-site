@@ -2292,6 +2292,10 @@ img {
   transform: translateY(-59%);
 }
 
+.real-app-demo__canvas--deep {
+  transform: translateY(-72%);
+}
+
 .real-app-demo__screen {
   object-fit: cover;
   animation: real-app-frame-in 520ms ease-out both;
@@ -3201,7 +3205,78 @@ img {
 .extension-lesson:nth-child(even) .app-demo { order: 1; }
 .extension-lesson__number { display: inline-grid; width: 50px; height: 50px; margin-bottom: 30px; place-items: center; border: 3px solid var(--ink); border-radius: 50%; background: var(--surface-bone); font-weight: 900; box-shadow: 5px 5px 0 var(--terracotta); }
 .extension-lesson__copy h2 { margin: 12px 0 22px; font-size: clamp(43px,4.4vw,72px); line-height: .96; letter-spacing: -.052em; }
-.extension-lesson__copy > p:last-child { max-width: 570px; margin: 0; color: var(--text-muted); font-size: clamp(17px,1.45vw,22px); line-height: 1.55; }
+.extension-lesson__copy > p:not(.eyebrow) { max-width: 570px; margin: 0; color: var(--text-muted); font-size: clamp(17px,1.45vw,22px); line-height: 1.55; }
+.extension-lesson__steps { max-width: 590px; margin: 28px 0 0; padding: 0; display: grid; gap: 10px; list-style: none; }
+.extension-lesson__steps li { position: relative; min-height: 44px; padding: 11px 16px 11px 42px; display: flex; align-items: center; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,249,239,.72); color: var(--text-ink); font-size: 13px; font-weight: 800; line-height: 1.35; }
+.extension-lesson__steps li::before { content: "→"; position: absolute; left: 15px; color: var(--terracotta-dark); font-size: 18px; }
+
+.extension-real-demo__caption span {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.extension-real-demo__tap {
+  position: absolute;
+  z-index: 4;
+  left: var(--tap-left);
+  top: var(--tap-top);
+  width: 30px;
+  height: 30px;
+  display: block;
+  border: 3px solid rgba(255, 250, 239, 0.98);
+  border-radius: 50%;
+  background: rgba(214, 108, 72, 0.34);
+  box-shadow:
+    0 0 0 2px rgba(214, 108, 72, 0.96),
+    0 0 0 10px rgba(255, 236, 119, 0.38);
+  transform: translate(-50%, -50%);
+  animation: extension-real-tap 1.35s ease-out infinite;
+  pointer-events: none;
+}
+
+.extension-real-demo.is-paused .extension-real-demo__tap {
+  animation-play-state: paused;
+}
+
+.extension-real-demo__typing {
+  position: absolute;
+  z-index: 4;
+  left: var(--typing-left);
+  top: var(--typing-top);
+  width: var(--typing-width);
+  height: var(--typing-height);
+  padding: 2.8% 2.7%;
+  display: block;
+  overflow: hidden;
+  color: #2c211b;
+  background: #fff;
+  font-family: var(--font-body);
+  font-size: clamp(12px, 2.2vw, 20px);
+  font-weight: 560;
+  line-height: 1.25;
+  white-space: pre-wrap;
+}
+
+.extension-real-demo__typing .real-app-demo__caret {
+  vertical-align: -0.12em;
+}
+
+@keyframes extension-real-tap {
+  0%, 100% {
+    box-shadow:
+      0 0 0 2px rgba(214, 108, 72, 0.96),
+      0 0 0 8px rgba(255, 236, 119, 0.3);
+    scale: 0.92;
+  }
+  55% {
+    box-shadow:
+      0 0 0 2px rgba(214, 108, 72, 0.96),
+      0 0 0 18px rgba(255, 236, 119, 0.06);
+    scale: 1;
+  }
+}
 
 .extension-demo { position: relative; width: 100%; height: 100%; overflow: hidden; background: linear-gradient(150deg,#f4e3cc,#fff9ef 62%); }
 .extension-demo::before { content: ""; position: absolute; width: 290px; height: 290px; right: -80px; bottom: -130px; border-radius: 50%; background: rgba(217,107,70,.12); }
@@ -3861,6 +3936,10 @@ img {
 
   .real-app-demo__canvas--bottom {
     transform: translateY(-45%);
+  }
+
+  .real-app-demo__canvas--deep {
+    transform: translateY(-56%);
   }
 
   .app-demo__search {
