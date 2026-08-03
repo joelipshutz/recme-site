@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BrandMark } from "@/components/BrandMark";
+import { MobileSiteNav } from "@/components/MobileSiteNav";
 import { primaryDownloadLabel, primaryDownloadURL } from "@/lib/site";
 
 export function SiteHeader() {
@@ -17,6 +18,7 @@ export function SiteHeader() {
             {primaryDownloadLabel}
           </a>
         </nav>
+        <MobileSiteNav />
       </div>
     </header>
   );
