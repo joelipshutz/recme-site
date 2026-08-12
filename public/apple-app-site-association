@@ -21,6 +21,10 @@
           {
             "/": "/invites/*",
             "comment": "Opens a revocable rec.me list invitation."
+          },
+          {
+            "/": "/share/tiktok",
+            "comment": "Returns TikTok Share Kit results to rec.me."
           }
         ]
       }
