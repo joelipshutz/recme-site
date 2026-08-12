@@ -23,14 +23,16 @@ const nextConfig: NextConfig = {
         source: "/.well-known/apple-app-site-association",
         headers: [
           { key: "Content-Type", value: "application/json" },
-          { key: "Cache-Control", value: "public, max-age=300" }
+          { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
+          { key: "CDN-Cache-Control", value: "public, s-maxage=60" }
         ]
       },
       {
         source: "/apple-app-site-association",
         headers: [
           { key: "Content-Type", value: "application/json" },
-          { key: "Cache-Control", value: "public, max-age=300" }
+          { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
+          { key: "CDN-Cache-Control", value: "public, s-maxage=60" }
         ]
       }
     ];
