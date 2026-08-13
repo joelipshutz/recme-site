@@ -3,8 +3,17 @@ export const APP_STORE_URL = "https://apps.apple.com/app/id6776850787";
 export const TESTFLIGHT_URL = "https://testflight.apple.com/join/knEhRa6t";
 export const SUPPORT_EMAIL = "support@getrec.me";
 
-export const primaryDownloadURL = TESTFLIGHT_URL;
-export const primaryDownloadLabel = "Join the TestFlight";
+export const releaseChannel =
+  process.env.NEXT_PUBLIC_RECME_RELEASE_CHANNEL === "app-store"
+    ? "app-store"
+    : "testflight";
+
+export const primaryDownloadURL =
+  releaseChannel === "app-store" ? APP_STORE_URL : TESTFLIGHT_URL;
+export const primaryDownloadLabel =
+  releaseChannel === "app-store"
+    ? "Download on the App Store"
+    : "Join the TestFlight";
 
 export type SharedRouteKind = "profile" | "place" | "list" | "invite";
 

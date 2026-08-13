@@ -338,6 +338,7 @@ function RealExtensionDemo({
       {...sequence}
       frameCount={frames.length}
       label={label}
+      status={`Step ${sequence.frame + 1} of ${frames.length}: ${frames[sequence.frame].caption}`}
       viewportClassName="app-demo__viewport--focused"
     >
       <ExtensionRealSequence

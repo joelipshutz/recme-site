@@ -79,6 +79,7 @@ export function DemoShell({
   paused,
   previousFrame,
   reducedMotion,
+  status,
   nextFrame,
   togglePaused,
   viewportClassName
@@ -91,6 +92,7 @@ export function DemoShell({
   paused: boolean;
   previousFrame?: () => void;
   reducedMotion: boolean;
+  status: string;
   nextFrame?: () => void;
   togglePaused: () => void;
   viewportClassName?: string;
@@ -116,6 +118,9 @@ export function DemoShell({
       <div className={`app-demo__viewport${viewportClassName ? ` ${viewportClassName}` : ""}`} aria-hidden="true">
         {children}
       </div>
+      <p aria-atomic="true" aria-live="polite" className="app-demo__status">
+        {status}
+      </p>
       {previousFrame && nextFrame ? (
         <div className="app-demo__guided-progress">
           <button aria-label={`Previous step in ${label}`} onClick={previousFrame} type="button">←</button>
@@ -378,6 +383,7 @@ function RealDemo({
       label={label}
       paused={sequence.paused}
       reducedMotion={sequence.reducedMotion}
+      status={`Step ${sequence.frame + 1} of ${frames.length}: ${frames[sequence.frame].caption}`}
       togglePaused={sequence.togglePaused}
       viewportClassName="app-demo__viewport--focused"
     >

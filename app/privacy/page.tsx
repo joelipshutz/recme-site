@@ -150,6 +150,15 @@ export default function PrivacyPage() {
           tokens, and dependent content, subject to limited legal, fraud, and
           backup retention.
         </p>
+        <p>
+          Safety reports and the evidence attached to them are private and
+          access-controlled. We retain them while a report is active and for up
+          to 24 months after it is resolved so we can prevent repeat abuse,
+          review enforcement, and protect the service. We may retain specific
+          records longer only when required by law or covered by a legal or
+          immediate-safety hold. When that retention ends, we delete or
+          anonymize the report and its evidence where practical.
+        </p>
       </section>
 
       <section>
