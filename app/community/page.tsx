@@ -82,6 +82,17 @@ export default function CommunityPage() {
           severity, intent, history, and the risk of harm inform enforcement.
         </p>
       </section>
+
+      <section>
+        <h2>Appeals and questions</h2>
+        <p>
+          If you believe we made an enforcement mistake, reply to the notice
+          you received or email support@getrec.me with “Moderation appeal” in
+          the subject. Include your rec.me username and the decision you want
+          reviewed, but do not send passwords, verification codes, private
+          notes, or precise location.
+        </p>
+      </section>
     </DocumentPage>
   );
 }

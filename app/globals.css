@@ -7,16 +7,18 @@
   --surface-sand: #efe3d0;
   --text-ink: #2c2118;
   --text-muted: #7b6555;
-  --text-faint: #a8957f;
+  --text-faint: #735e4e;
   --text-on-action: #fff7ea;
   --border-hairline: #dbc2aa;
   --border-strong: #c9ac8f;
   --terracotta: #d46f4d;
   --terracotta-dark: #a94f35;
+  --action-primary: #b45439;
   --terracotta-tint: #f6e0d2;
   --sun-tint: #f4e8c9;
   --sky-tint: #dbeaf1;
   --pin-social: #69b8d7;
+  --focus-ring: #2f7896;
   --cat-moss: #6f8f5f;
   --cat-sun: #e3b64b;
   --state-success: #3f8f64;
@@ -28,6 +30,8 @@
     0 18px 48px rgba(44, 33, 24, 0.12);
   --shadow-phone: 0 30px 80px rgba(74, 43, 24, 0.22);
   --content-width: 1180px;
+  --ink: var(--text-ink);
+  --line: var(--border-hairline);
 }
 
 * {
@@ -101,6 +105,9 @@ img {
 }
 
 .site-logo {
+  align-items: center;
+  display: inline-flex;
+  min-height: 44px;
   text-decoration: none;
 }
 
@@ -113,6 +120,9 @@ img {
 }
 
 .site-nav > a:not(.button) {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
 }
 
@@ -187,8 +197,8 @@ img {
   justify-content: center;
   gap: 8px;
   color: var(--text-on-action);
-  background: var(--terracotta);
-  border: 1px solid var(--terracotta);
+  background: var(--action-primary);
+  border: 1px solid var(--action-primary);
   border-radius: 999px;
   font-family: var(--font-body);
   font-size: 15px;
@@ -212,7 +222,7 @@ img {
 .site-nav a:focus-visible,
 .text-link:focus-visible,
 .site-footer a:focus-visible {
-  outline: 3px solid var(--pin-social);
+  outline: 3px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
@@ -377,7 +387,7 @@ img {
 }
 
 .product-demo__switcher button:focus-visible {
-  outline: 3px solid var(--pin-social);
+  outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
@@ -435,7 +445,7 @@ img {
 }
 
 .product-demo__hint button:focus-visible {
-  outline: 3px solid var(--pin-social);
+  outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
@@ -930,7 +940,7 @@ img {
 }
 
 .phone__chips button:focus-visible {
-  outline: 3px solid var(--pin-social);
+  outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
@@ -2193,7 +2203,7 @@ img {
 }
 
 .app-demo__chrome button:focus-visible {
-  outline: 3px solid var(--pin-social);
+  outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
@@ -2207,6 +2217,18 @@ img {
   border-radius: 999px;
   letter-spacing: 0;
   text-transform: none;
+}
+
+.app-demo__status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .app-demo__viewport {
@@ -2281,7 +2303,7 @@ img {
 }
 
 .app-demo__guided-progress button:focus-visible {
-  outline: 3px solid var(--pin-social);
+  outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
@@ -3218,6 +3240,7 @@ img {
 .extensions-hero__copy h1 {
   max-width: 830px;
   margin: 18px 0 26px;
+  font-family: var(--font-display);
   font-size: clamp(66px, 7.3vw, 118px);
   line-height: .88;
   letter-spacing: -.065em;
@@ -3260,7 +3283,7 @@ img {
 @keyframes extensions-float { 50% { transform: translateY(-11px) rotate(2deg); } }
 
 .extensions-intro { width: min(980px, calc(100% - 72px)); margin: 20px auto 0; padding: 72px 0 48px; text-align: center; }
-.extensions-intro h2 { margin: 14px auto 22px; font-size: clamp(42px,5.4vw,76px); line-height: .98; letter-spacing: -.05em; }
+.extensions-intro h2 { margin: 14px auto 22px; font-family: var(--font-display); font-size: clamp(42px,5.4vw,76px); line-height: .98; letter-spacing: -.05em; }
 .extensions-intro > p:last-child { max-width: 680px; margin: 0 auto; color: var(--text-muted); font-size: 18px; line-height: 1.55; }
 .extensions-lessons { width: min(1360px, calc(100% - 72px)); margin: 28px auto 0; }
 
@@ -3268,7 +3291,7 @@ img {
 .extension-lesson:nth-child(even) .extension-lesson__copy { order: 2; }
 .extension-lesson:nth-child(even) .app-demo { order: 1; }
 .extension-lesson__number { display: inline-grid; width: 50px; height: 50px; margin-bottom: 30px; place-items: center; border: 3px solid var(--ink); border-radius: 50%; background: var(--surface-bone); font-weight: 900; box-shadow: 5px 5px 0 var(--terracotta); }
-.extension-lesson__copy h2 { margin: 12px 0 22px; font-size: clamp(43px,4.4vw,72px); line-height: .96; letter-spacing: -.052em; }
+.extension-lesson__copy h2 { margin: 12px 0 22px; font-family: var(--font-display); font-size: clamp(43px,4.4vw,72px); line-height: .96; letter-spacing: -.052em; }
 .extension-lesson__copy > p:not(.eyebrow) { max-width: 570px; margin: 0; color: var(--text-muted); font-size: clamp(17px,1.45vw,22px); line-height: 1.55; }
 .extension-lesson__steps { max-width: 590px; margin: 28px 0 0; padding: 0; display: grid; gap: 10px; list-style: none; }
 .extension-lesson__steps li { position: relative; min-height: 44px; padding: 11px 16px 11px 42px; display: flex; align-items: center; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,249,239,.72); color: var(--text-ink); font-size: 13px; font-weight: 800; line-height: 1.35; }
@@ -3588,7 +3611,7 @@ img {
 
 .extensions-page__cta { width: min(1360px,calc(100% - 72px)); margin: 40px auto 80px; padding: 70px; display: flex; align-items: center; justify-content: space-between; gap: 40px; border-radius: 38px; background: var(--terracotta); color: white; }
 .extensions-page__cta .eyebrow { color: rgba(255,255,255,.72); }
-.extensions-page__cta h2 { max-width: 780px; margin: 8px 0 0; font-size: clamp(42px,5vw,74px); line-height: .96; }
+.extensions-page__cta h2 { max-width: 780px; margin: 8px 0 0; font-family: var(--font-display); font-size: clamp(42px,5vw,74px); line-height: .96; }
 
 @supports (animation-timeline: view()) {
   .motion-reveal {
@@ -3666,6 +3689,34 @@ img {
   }
 }
 
+@media (max-width: 960px) {
+  .extensions-hero {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    gap: 70px;
+  }
+
+  .extensions-hero__copy {
+    max-width: 760px;
+  }
+
+  .extensions-hero__orbit {
+    width: min(100%, 560px);
+    margin: 0 auto;
+  }
+
+  .extension-lesson {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+
+  .extension-lesson:nth-child(even) .extension-lesson__copy,
+  .extension-lesson:nth-child(even) .app-demo {
+    order: initial;
+  }
+}
+
 @media (max-width: 900px) {
   .site-nav > a:not(.button) {
     display: none;
@@ -3725,7 +3776,7 @@ img {
   }
 
   .mobile-site-nav a:focus-visible {
-    outline: 3px solid var(--pin-social);
+    outline: 3px solid var(--focus-ring);
     outline-offset: 2px;
   }
 

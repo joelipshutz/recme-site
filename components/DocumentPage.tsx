@@ -12,7 +12,7 @@ export function DocumentPage({
   eyebrow,
   title,
   intro,
-  updated = "July 29, 2026",
+  updated = "August 13, 2026",
   children
 }: DocumentPageProps) {
   return (

@@ -63,10 +63,16 @@ export default function SupportPage() {
       <section>
         <h2>Safety</h2>
         <p>
-          Block an account immediately when you need separation. Use in-app
-          reporting when available or contact support with the profile,
-          content, and reason. For immediate danger, contact local emergency
-          services.
+          Block an account immediately when you need separation. Use the
+          in-app Report action for abusive content or behavior so the safety
+          team receives the relevant private evidence. If the Report action is
+          unavailable, email{" "}
+          <a href={`mailto:${SUPPORT_EMAIL}?subject=rec.me%20safety%20report`}>
+            {SUPPORT_EMAIL}
+          </a>{" "}
+          with “Safety report” in the subject and include the profile or
+          content involved. Do not forward private notes or precise location.
+          For immediate danger, contact local emergency services.
         </p>
       </section>
 
