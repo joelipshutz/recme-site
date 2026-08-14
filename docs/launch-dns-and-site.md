@@ -1,7 +1,8 @@
 # getrec.me DNS and site launch handoff
 
-Verified on August 13, 2026. DNS is managed in Squarespace and the website is
-hosted by the Vercel project `recme-site`.
+Verified on August 14, 2026. DNS is managed in Squarespace
+(`nsc1`–`nsc4.squarespacedns.com`) and the website is hosted by the Vercel
+project `recme-site`.
 
 ## Do not change these working website records
 
@@ -56,18 +57,47 @@ receive mail even though the website and App Store package use it. The domain
 also publishes `v=spf1 -all`, which explicitly authorizes no outbound sender.
 DMARC is already strict: `v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s`.
 
-Recommended setup: provision Google Workspace for `getrec.me`, create
-`support@getrec.me`, and use Squarespace's **Google Workspace MX** preset. If
-adding the record manually, Google currently specifies:
+Recommended setup: use the correct existing Grayline Google Workspace rather
+than creating another Workspace or buying an unnecessary user seat.
+
+1. In Google Admin, add `getrec.me` as a **secondary domain** and complete the
+   ownership-verification TXT record Google generates. Do not add it to an
+   unrelated Workspace, and do not use a user-alias domain if the goal is a
+   standalone `support@getrec.me` Group.
+2. In Directory → Groups, create `support@getrec.me`. Add Joe as the primary
+   recipient and at least one monitored backup owner. Configure the Group to
+   accept posts from external senders while keeping membership private.
+3. In Squarespace, use the **Google Workspace MX** preset, or add this record
+   manually:
 
 | Purpose | Type | Host | Priority | Value |
 | --- | --- | --- | --- | --- |
 | Google Workspace inbound mail | MX | `@` | `1` | `smtp.google.com` |
 
-Complete Google's domain verification, SPF, and DKIM steps using the exact
-values Google Admin generates. Replace the current `v=spf1 -all` record with
-Google's generated SPF value; keep only one SPF TXT record at the apex. Keep
-the existing DMARC record unless Google Admin identifies a conflict.
+4. Replace the existing apex SPF TXT value `v=spf1 -all` with the Google-only
+   sender policy below. Keep exactly one SPF record at the apex:
+
+   ```text
+   v=spf1 include:_spf.google.com ~all
+   ```
+
+5. In Google Admin → Gmail → Authenticate email, generate a 2048-bit DKIM key
+   for `getrec.me`. Add the exact selector and TXT value Google provides
+   (normally host `google._domainkey` and a value beginning `v=DKIM1;`), wait
+   for DNS to resolve, then click **Start authentication**. Never copy a DKIM
+   value from another domain or Workspace.
+6. Activate Gmail for `getrec.me`. Configure Gmail **Send mail as** so replies
+   to Group mail leave as `support@getrec.me`, not a personal address.
+7. Keep the existing strict DMARC record only after SPF and DKIM both pass:
+
+   ```text
+   v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s
+   ```
+
+   Google recommends having SPF and DKIM in place before enforcing DMARC. If
+   authenticated replies do not pass during rollout, do not send production
+   support mail until the DNS/authentication issue is fixed; do not weaken the
+   policy silently.
 
 Before App Store submission:
 
@@ -75,6 +105,8 @@ Before App Store submission:
   it arrives.
 - Reply from `support@getrec.me` and confirm SPF, DKIM, and DMARC pass in the
   received-message headers.
+- Confirm an external sender can post without joining the Group and that the
+  backup owner receives the message.
 - Confirm the App Store support URL is `https://getrec.me/support` and the
   privacy URL is `https://getrec.me/privacy`.
 
