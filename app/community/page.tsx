@@ -1,4 +1,5 @@
 import { DocumentPage } from "@/components/DocumentPage";
+import { SUPPORT_EMAIL } from "@/lib/site";
 
 export const metadata = {
   title: "Community Standards",
@@ -87,10 +88,13 @@ export default function CommunityPage() {
         <h2>Appeals and questions</h2>
         <p>
           If you believe we made an enforcement mistake, reply to the notice
-          you received or email support@getrec.me with “Moderation appeal” in
-          the subject. Include your rec.me username and the decision you want
-          reviewed, but do not send passwords, verification codes, private
-          notes, or precise location.
+          you received or email{" "}
+          <a href={`mailto:${SUPPORT_EMAIL}?subject=Moderation%20appeal`}>
+            {SUPPORT_EMAIL}
+          </a>{" "}
+          with “Moderation appeal” in the subject. Include your rec.me username
+          and the decision you want reviewed, but do not send passwords,
+          verification codes, private notes, or precise location.
         </p>
       </section>
     </DocumentPage>
