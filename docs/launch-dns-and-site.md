@@ -50,15 +50,35 @@ values. Do not invent targets from examples or add placeholder CNAMEs.
    release candidate. Update the iOS Associated Domains entitlement to the
    production Clerk frontend API host that Clerk generates.
 
-## Blocker 2: make support@getrec.me a real mailbox
+## Launch contact: use getrec.me@gmail.com
 
-Public DNS currently has no MX record. `support@getrec.me` therefore cannot
-receive mail even though the website and App Store package use it. The domain
-also publishes `v=spf1 -all`, which explicitly authorizes no outbound sender.
-DMARC is already strict: `v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s`.
+Joe selected `getrec.me@gmail.com` as the public Support and App Review contact
+for launch, with `joe@grayline-studio.com` as fallback. Apple accepts a Gmail
+address, so Google Workspace and `getrec.me` mail DNS are not launch blockers.
+Do not change MX, SPF, DKIM, DMARC, Google Workspace, or existing accounts for
+the version 1.0 launch.
 
-Recommended setup: use the correct existing Grayline Google Workspace rather
-than creating another Workspace or buying an unnecessary user seat.
+Before App Store submission:
+
+- Send a message from an unrelated mailbox to `getrec.me@gmail.com` and confirm
+  it arrives.
+- Reply from `getrec.me@gmail.com` and confirm the reply arrives without a spam
+  or authentication warning.
+- Confirm the inbox is monitored during the launch coverage window.
+- Confirm App Store Connect uses `getrec.me@gmail.com` for the review contact.
+- Confirm the App Store support URL is `https://getrec.me/support` and the
+  privacy URL is `https://getrec.me/privacy`.
+
+## Deferred: branded support@getrec.me mailbox
+
+Public DNS currently has no MX record, so `support@getrec.me` cannot receive
+mail. The domain also publishes `v=spf1 -all`, which explicitly authorizes no
+outbound sender. DMARC is already strict:
+`v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s`.
+
+This setup is optional after launch. When Joe chooses to enable the branded
+address, use the correct existing Grayline Google Workspace rather than
+creating another Workspace or buying an unnecessary user seat.
 
 1. In Google Admin, add `getrec.me` as a **secondary domain** and complete the
    ownership-verification TXT record Google generates. Do not add it to an
@@ -99,17 +119,6 @@ than creating another Workspace or buying an unnecessary user seat.
    support mail until the DNS/authentication issue is fixed; do not weaken the
    policy silently.
 
-Before App Store submission:
-
-- Send a message from an unrelated mailbox to `support@getrec.me` and confirm
-  it arrives.
-- Reply from `support@getrec.me` and confirm SPF, DKIM, and DMARC pass in the
-  received-message headers.
-- Confirm an external sender can post without joining the Group and that the
-  backup owner receives the message.
-- Confirm the App Store support URL is `https://getrec.me/support` and the
-  privacy URL is `https://getrec.me/privacy`.
-
 ## Site release switch
 
 The website defaults to TestFlight until the public App Store listing is live.
@@ -132,5 +141,6 @@ back, set the value to `testflight` (or remove it) and redeploy.
   includes `Y7TVK75RZ8.com.grayline.wander`.
 - Clerk production DNS, SSL, native app registration, OAuth, webhooks, and
   associated domains all show complete.
-- `support@getrec.me` passes the inbound and authenticated-reply tests above.
+- `getrec.me@gmail.com` passes the inbound and reply tests above and is shown on
+  the public Support and Community pages.
 - The App Store CTA is switched only after the public listing resolves.
